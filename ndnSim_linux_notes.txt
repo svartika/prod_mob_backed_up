@@ -1,0 +1,139 @@
+i installed ndn from the doc Install.rst
+
+then while compiling the error with boost libraries not found went away
+
+i got new error - checking for boost  inkages - blah..
+
+so i gave the path to boost libraries
+
+1) ./waf configure --boost-+libs=/usr/libs/x86_64-linux-gnu
+2) ./waf --boost-libs=/usr/libs/x86_64-linux-gnu
+3) ./waf install --boost-libs=/usr/libs/x86_64-linux-gnu
+
+4) ./waf docs --boost-libs=/usr/libs/x86_64-linux-gnu
+errors from parser 
+
+
+
+
+5:39 PM 9/7/2015
+
+i followed the steps of installing from ndnSim - getting started
+however, ./waf configure --enable-examples in ns-3 threw error - 'unable to find module doxygen'
+
+i checked the wscript file of ns-3...it was getting abspath of a variable.
+i dont know where this variable was declared so i could not modify it
+i simply hardocded the path
+
+
+wsciprt of ns-3 folder
+line 19
+tooldir=['/home/vartika/ndnSIM/ndn-cxx/.waf-tools]
+
+it compiles but gives warning that libcrypto is present (561) but not going to use it
+i dont know why
+
+
+
+3:51 PM 9/8/2015
+
+today yeonho asked me to use vmplayer
+he installed his instance of VM on my computer
+
+it was 12.04
+so i installed one more instance of 14.04
+
+what he did different was the link...the links provided by ndnsim webpage are incorrect
+he asked me to use
+ndnsim.net/2.1/getting-started.html instead of
+ndnsim.net/2.0/getting-started.html
+
+here the visualizer was not enabled. the pybindgen folder didnt have the ndnsim/pybindgen/pybindgen/version.py
+
+so i deleted this folder and downloaded from a different site
+git clone https://github.com/cawka/pybindgen.git instead of 
+git clone https://github.com/named-data-ndnSIM/pybindgen.git pybindgen 
+
+now the error was with the version...ndnSim/ns-3 wanted version  0.17.0.post45+ng4806e4f whereas i was providing 0.17.0.887.
+then i read the wscript file. 
+i modifioed the file ndnsim/ns3/bindings/python/wscript  line 16
+REQUIRED_PYBINDGEN_VERSION = '0.17.0.887' instead of
+REQUIRED_PYBINDGEN_VERSION = '0.17.0.post45+ng4806e4f' 
+
+nopw when i run with --vis...all works well :))
+
+
+3:26 PM 9/14/2015
+
+today i am trying to compile kite
+so i downloaded the ndnSim version as suggested by kite author
+it gave errors and so i downgraded ns3 to older version 3.19 (this was released right before she started her dev work)
+it gives error that i am compiling one by one
+
+i changed the files:
+ns-3/src/topology-read/model/topology-reader.h
+ns-3/src/point-to-point/helper/point-to-point-helper.h
+ns-3/src/point-to-point/helper/point-to-point-helper.cc
+ns-3/src/ndnSim/helper/ndn-global-routing-helper.cc
+i have added my name with comments
+
+also i changed the pybindgen version in wscript file
+
+then ns-3 folder
+./waf configure --enable-examples --boost-libs=/usr/lib/i386-linux-gnu
+sudo ./waf --boost-libs=/usr/lib/i386-linux-gnu install
+
+then go to kite folder
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./waf configure --debug --boost-libs=/usr/lib/i386-linux-gnu
+this ouputs to a folder called build
+
+./upload-run.sh --vis
+
+when i simulate this i am getting the error
+assert failed. cond = "false", msg="PPP Protocol number not defined!", file=../src/point-to-point/model/point-to-point-net-device.cc, line=622
+terminate called without an active exception
+
+
+10:27 AM 9/15/2015
+
+to remove PPP Protocol number not defined i put patch for ccnx from following link
+https://github.com/manseu/ns-3-ndnSIM-Modification/blob/master/patches/0001-point-to-point-Add-support-of-PPP-Ethernet-and-Ether.patch
+
+in .../src/point-to-point/model/point-to-point-net-device.cc->
+PointToPointNetDevice::PppToEther (uint16_t proto)
+     {
+     case 0x0021: return 0x0800;   //IPv4
+     case 0x0057: return 0x86DD;   //IPv6
++    case 0x0077: return 0x7777;   //CCNx
+     default: NS_ASSERT_MSG (false, "PPP Protocol number not defined!");
+     }
+PointToPointNetDevice::EtherToPpp (uint16_t proto)
+     {
+     case 0x0800: return 0x0021;   //IPv4
+     case 0x86DD: return 0x0057;   //IPv6
++    case 0x7777: return 0x0077;   //CCNx
+     default: NS_ASSERT_MSG (false, "PPP Protocol number not defined!");
+     }
+
+in .../src/point-to-point/model/ppp-header.cc
+PppHeader::Print (std::ostream &os) const ...
+...
+     case 0x0057: /* IPv6 */
+       proto = "IPv6 (0x0057)";
+       break;
++    case 0x0077: /* CCNx */
++      proto = "CCNx (0x0077)";
++      break;
+     default:
+       NS_ASSERT_MSG (false, "PPP Protocol number not defined!");
+     }
+now recompile ns3 and install again
+now i can run all the scenario files
+./upload-run.sh --vis
+./sync-run.sh --vis
+./upload-sim.pl
+./sync-sim.pl
+although i am not able to terminate ./upload-sim.pl ..
+i have to understand code now and how this is integrated in to ndnsim if at all it is

@@ -1,0 +1,67 @@
+1
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "upload \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=1 --grid=4 --stop=200"
+
+2
+NS_LOG=Two NS_GLOBAL_VALUE="RngRun=4" ./waf --run "two \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=2 --grid=4 --stop=200" 
+
+
+
+3
+NS_LOG=Three NS_GLOBAL_VALUE="RngRun=4" ./waf --run "three \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=3 --grid=4 --stop=200" 
+
+
+
+
+4
+NS_LOG=Four NS_GLOBAL_VALUE="RngRun=4" ./waf --run "four \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=4 --grid=4 --stop=200" 
+
+
+
+
+5
+NS_LOG=Five NS_GLOBAL_VALUE="RngRun=4" ./waf --run "five \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=5 --grid=4 --stop=200" 
+
+
+
+
+6
+NS_LOG=Six NS_GLOBAL_VALUE="RngRun=4" ./waf --run "six \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=6 --grid=4 --stop=200" 
+
+
+
+
+7
+NS_LOG=Seven NS_GLOBAL_VALUE="RngRun=4" ./waf --run "seven \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=7 --grid=4 --stop=200" 
+
+
+
+
+8
+NS_LOG=Eight NS_GLOBAL_VALUE="RngRun=4" ./waf --run "eight \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=8 --grid=4 --stop=200" 
+
+
+
+
+9
+NS_LOG=Nine NS_GLOBAL_VALUE="RngRun=4" ./waf --run "nine \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=500 --size=9 --grid=4 --stop=200" 
+
+

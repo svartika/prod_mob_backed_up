@@ -1,0 +1,357 @@
+>>>>>>>>>>>>>>>> [['void', 'ns3::Ptr<ns3::ndn::Name const>', 'ns3::Ptr<ns3::ndn::Interest const>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::ndn::Interest const>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::ndn::Interest const>', 'ns3::Ptr<ns3::ndn::Data const>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::ndn::Face>', 'ns3::Ptr<ns3::ndn::Data>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::ndn::Face>', 'ns3::Ptr<ns3::ndn::Interest>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::Application>', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty', 'ns3::empty'], ['void', 'ns3::Ptr<ns3::NetDevice>', 'ns3::Ptr<ns3::Packet const>', 'unsigned short', 'ns3::Address const&', 'ns3::Address const&', 'ns3::NetDevice::PacketType', 'ns3::empty', 'ns3::empty', 'ns3::empty']]
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception TypeLookupError(['ns3::ndn::name::Component'],) in wrapper <pybindgen.Container 'std::map< ns3::ndn::name::Component, bool, std::greater< ns3::ndn::name::Component >, std::allocator< std::pair< ns3::ndn::name::Component const, bool > > >'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::ndn::Name const >, ns3::Ptr< ns3::ndn::Interest const >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::ndn::Interest const >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::ndn::Interest const >, ns3::Ptr< ns3::ndn::Data const >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::ndn::Face >, ns3::Ptr< ns3::ndn::Data >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::ndn::Face >, ns3::Ptr< ns3::ndn::Interest >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::Application >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'
+***** registering callback handler: 'ns3::Callback< void, ns3::Ptr< ns3::NetDevice >, ns3::Ptr< ns3::Packet const >, unsigned short, ns3::Address const &, ns3::Address const &, ns3::NetDevice::PacketType, ns3::empty, ns3::empty, ns3::empty >'
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:779: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6f670ec>
+  cls.add_constructor([param('uint8_t', 'type'), param('uint8_t const *', 'buffer'), param('uint8_t', 'len')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:790: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyAllFrom (params?);
+  [param('uint8_t const *', 'buffer'), param('uint8_t', 'len')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:795: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyAllTo (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:799: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyFrom (params?);
+  [param('uint8_t const *', 'buffer'), param('uint8_t', 'len')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:804: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyTo (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:866: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Application > const, std::vector< ns3::Ptr< ns3::Application > > >'],) in wrapper public: retval? ???::Begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:871: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Application > const, std::vector< ns3::Ptr< ns3::Application > > >'],) in wrapper public: retval? ???::End (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:905: Warning: exception TypeLookupError(['std::_List_const_iterator< ns3::AttributeConstructionList::Item >'],) in wrapper public: retval? ???::Begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:910: Warning: exception TypeLookupError(['std::_List_const_iterator< ns3::AttributeConstructionList::Item >'],) in wrapper public: retval? ???::End (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:961: Warning: exception TypeLookupError(['std::ostream *'],) in wrapper public: retval? ???::CopyData (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:966: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyData (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:980: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Deserialize (params?);
+  [param('uint8_t const *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1010: Warning: exception TypeLookupError(['uint8_t *'],) in wrapper public: retval? ???::PeekData (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1023: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Serialize (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1082: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Read (params?);
+  [param('uint8_t *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1130: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Write (params?);
+  [param('uint8_t const *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1316: Warning: exception TypeLookupError(['ns3::Ptr< ns3::EventImpl > &'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6ed29ec>
+  cls.add_constructor([param('ns3::Ptr< ns3::EventImpl > const &', 'impl'), param('uint64_t', 'ts'), param('uint32_t', 'context'), param('uint32_t', 'uid')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1350: Warning: exception TypeConfigurationError('Either caller_owns_return or self.reference_existing_object must be given',) in wrapper public: retval? ???::PeekEventImpl (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1409: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Deserialize (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1474: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1479: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Serialize (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1546: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1563: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6e8fb2c>
+  cls.add_constructor([param('uint8_t *', 'address')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1581: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Deserialize (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1606: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::GetBytes (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1695: Warning: exception TypeLookupError(['ns3::Mac16Address'],) in wrapper public: retval? ???::MakeAutoconfiguredAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1700: Warning: exception TypeLookupError(['ns3::Mac48Address'],) in wrapper public: retval? ???::MakeAutoconfiguredAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1705: Warning: exception TypeLookupError(['ns3::Mac64Address'],) in wrapper public: retval? ???::MakeAutoconfiguredAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1710: Warning: exception TypeLookupError(['ns3::Mac16Address'],) in wrapper public: retval? ???::MakeAutoconfiguredLinkLocalAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1715: Warning: exception TypeLookupError(['ns3::Mac48Address'],) in wrapper public: retval? ???::MakeAutoconfiguredLinkLocalAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1720: Warning: exception TypeLookupError(['ns3::Mac64Address'],) in wrapper public: retval? ???::MakeAutoconfiguredLinkLocalAddress (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1735: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1740: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Serialize (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1748: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Set (params?);
+  [param('uint8_t *', 'address')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1758: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6e3b46c>
+  cls.add_constructor([param('uint8_t *', 'prefix')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1771: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::GetBytes (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1806: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1836: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::NetDevice > const, std::vector< ns3::Ptr< ns3::NetDevice > > >'],) in wrapper public: retval? ???::Begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1841: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::NetDevice > const, std::vector< ns3::Ptr< ns3::NetDevice > > >'],) in wrapper public: retval? ???::End (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1887: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node > const, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::Begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1900: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node > const, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::End (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1920: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node > const, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1924: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node >, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::begin (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1929: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node > const, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::end (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:1933: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::Node >, std::vector< ns3::Ptr< ns3::Node > > >'],) in wrapper public: retval? ???::end (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2011: Warning: exception TypeConfigurationError('Missing transfer_ownership option',) in wrapper public: retval? ???::Delete (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2084: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Deserialize (params?);
+  [param('uint8_t const *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2125: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Serialize (params?) const;
+  is_const=True)
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception TypeLookupError(['uint8_t [ 20 ]'],) in wrapper None
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception TypeConfigurationError('Either caller_owns_return or self.reference_existing_object must be given',) in wrapper None
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2364: Warning: exception TypeLookupError(['ns3::Ptr< ns3::SimulatorImpl >', 'ns3::SimulatorImpl *'],) in wrapper public: retval? ???::GetImplementation (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2399: Warning: exception TypeLookupError(['ns3::Ptr< ns3::SimulatorImpl >', 'ns3::SimulatorImpl *'],) in wrapper public: retval? ???::SetImplementation (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2441: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2453: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6d4bb4c>
+  cls.add_constructor([param('uint8_t *', 'start'), param('uint8_t *', 'end')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2461: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Read (params?);
+  [param('uint8_t *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2489: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Write (params?);
+  [param('uint8_t const *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2597: Warning: exception TypeLookupError(['ns3::Callback< ns3::ObjectBase *, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::GetConstructor (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2676: Warning: exception TypeConfigurationError('Missing transfer_ownership option',) in wrapper public: retval? ???::LookupByHashFailSafe (params?);
+  is_static=True)
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception TypeLookupError(['short unsigned int'],) in wrapper None
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:2930: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3038: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3164: Warning: exception TypeLookupError(['std::pair< double, double >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6c4080c>
+  cls.add_constructor([param('std::pair< double, double >', 'params')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3166: Warning: exception TypeLookupError(['std::pair< double, double >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6c4088c>
+  cls.add_constructor([param('std::pair< double, double >', 'params'), param('double', 'b')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3603: Warning: exception TypeLookupError(['std::_List_const_iterator< ns3::TopologyReader::Link >'],) in wrapper public: retval? ???::LinksBegin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3613: Warning: exception TypeLookupError(['std::_List_const_iterator< ns3::TopologyReader::Link >'],) in wrapper public: retval? ???::LinksEnd (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3640: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< std::pair< std::basic_string< char, std::char_traits< char >, std::allocator< char > > const, std::basic_string< char, std::char_traits< char >, std::allocator< char > > > >'],) in wrapper public: retval? ???::AttributesBegin (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3644: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< std::pair< std::basic_string< char, std::char_traits< char >, std::allocator< char > > const, std::basic_string< char, std::char_traits< char >, std::allocator< char > > > >'],) in wrapper public: retval? ???::AttributesEnd (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:3747: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4447: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4452: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::PrintHeader (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4479: Warning: exception TypeLookupError(['ns3::Ptr< ns3::Channel >', 'ns3::Channel *'],) in wrapper public: virtual retval? ???::GetChannel (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4574: Warning: exception TypeLookupError(['ns3::Callback< bool, ns3::Ptr< ns3::NetDevice >, ns3::Ptr< ns3::Packet const >, short unsigned int, ns3::Address const &, ns3::Address const &, ns3::NetDevice::PacketType, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: virtual retval? ???::SetPromiscReceiveCallback (params?) = 0;
+  is_pure_virtual=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4579: Warning: exception TypeLookupError(['ns3::Callback< bool, ns3::Ptr< ns3::NetDevice >, ns3::Ptr< ns3::Packet const >, short unsigned int, ns3::Address const &, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: virtual retval? ???::SetReceiveCallback (params?) = 0;
+  is_pure_virtual=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4689: Warning: exception TypeLookupError(['ns3::Callback< void, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::RegisterDeviceAdditionListener (params?);
+  [param('ns3::Callback< void, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >', 'listener')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4697: Warning: exception TypeLookupError(['ns3::Callback< void, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::UnregisterDeviceAdditionListener (params?);
+  [param('ns3::Callback< void, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >', 'listener')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4763: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6876bec>
+  cls.add_constructor([param('uint8_t const *', 'buffer'), param('uint32_t', 'size'), param('bool', 'magic')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4765: Warning: exception TypeConfigurationError('direction not given',) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6876c6c>
+  cls.add_constructor([param('uint8_t const *', 'buffer'), param('uint32_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4808: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::CopyData (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4813: Warning: exception TypeLookupError(['std::ostream *'],) in wrapper public: retval? ???::CopyData (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4868: Warning: exception TypeLookupError(['uint8_t *'],) in wrapper public: retval? ???::PeekData (params?) const;
+  deprecated=True, is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4887: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4892: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::PrintByteTags (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4897: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::PrintPacketTags (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:4934: Warning: exception TypeConfigurationError('direction not given',) in wrapper public: retval? ???::Serialize (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5167: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67e81ec>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('ns3::Ptr< ns3::Node >', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5187: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5192: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::PrintHeader (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5247: Warning: exception TypeLookupError(['ns3::Hash::Hash32Function_ptr'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67ff54c>
+  cls.add_constructor([param('ns3::Hash::Hash32Function_ptr', 'hp')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5264: Warning: exception TypeLookupError(['ns3::Hash::Hash64Function_ptr'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb680480c>
+  cls.add_constructor([param('ns3::Hash::Hash64Function_ptr', 'hp')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5355: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67a692c>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('ns3::Ptr< ns3::Node >', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5357: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67a69ac>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('std::string const &', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5377: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper public: retval? ???::Install (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5387: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::PrintHeader (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5430: Warning: exception TypeLookupError(['void *'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67bab4c>
+  cls.add_constructor([param('void const *', 'buf'), param('size_t', 'length')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5434: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char *, std::vector< char > >'],) in wrapper public: retval? ???::begin (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5439: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char const *, std::vector< char > >'],) in wrapper public: retval? ???::begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5461: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char *, std::vector< char > >'],) in wrapper public: retval? ???::end (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5466: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char const *, std::vector< char > >'],) in wrapper public: retval? ???::end (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5537: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5545: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67da8ec>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('ns3::Ptr< ns3::Node >', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5547: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb67da96c>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('std::string const &', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5567: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper public: retval? ???::Install (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5577: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5582: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::PrintHeader (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5635: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5692: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< std::pair< ns3::ndn::name::Component const, bool > >'],) in wrapper public: retval? ???::begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5697: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< std::pair< ns3::ndn::name::Component const, bool > >'],) in wrapper public: retval? ???::end (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5723: Warning: exception TypeLookupError(['std::reverse_iterator< std::_Rb_tree_const_iterator< std::pair< ns3::ndn::name::Component const, bool > > >'],) in wrapper public: retval? ???::rbegin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5728: Warning: exception TypeLookupError(['std::reverse_iterator< std::_Rb_tree_const_iterator< std::pair< ns3::ndn::name::Component const, bool > > >'],) in wrapper public: retval? ???::rend (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5777: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5792: Warning: exception TypeLookupError(['ns3::Callback< void, ns3::Ptr< ns3::ndn::Face >, ns3::Ptr< ns3::ndn::Interest >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty > &'],) in wrapper public: virtual retval? ???::RegisterProtocolHandlers (params?);
+  is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5846: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Face > &'],) in wrapper public: retval? ???::Add (params?);
+  [param('ns3::Ptr< ns3::ndn::Face > const &', 'face')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5859: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::ndn::Face > const, std::vector< ns3::Ptr< ns3::ndn::Face > > >'],) in wrapper public: retval? ???::Begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5864: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::ndn::Face > const, std::vector< ns3::Ptr< ns3::ndn::Face > > >'],) in wrapper public: retval? ???::End (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5869: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::Ptr< ns3::ndn::Face > const, std::vector< ns3::Ptr< ns3::ndn::Face > > >'],) in wrapper public: retval? ???::Get (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5890: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Name const > &'],) in wrapper public: virtual retval? ???::Add (params?) = 0;
+  is_pure_virtual=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5955: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:5960: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Name const > &'],) in wrapper public: virtual retval? ???::Remove (params?) = 0;
+  is_pure_virtual=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6232: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::Print (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6327: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Face > &'],) in wrapper public: virtual retval? ???::AddFace (params?);
+  is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6377: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6382: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::PrintHeader (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6574: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb665860c>
+  cls.add_constructor([param('__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >', 'begin'), param('__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >', 'end')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6583: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >'],) in wrapper public: retval? ???::append (params?);
+  template_parameters=['__gnu_cxx::__normal_iterator<ns3::ndn::name::Component const*, std::vector<ns3::ndn::name::Component, std::allocator<ns3::ndn::name::Component> > >'])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6595: Warning: exception TypeLookupError(['void *'],) in wrapper public: retval? ???::append (params?);
+  [param('void const *', 'buf'), param('size_t', 'size')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6628: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >'],) in wrapper public: retval? ???::begin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6632: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component *, std::vector< ns3::ndn::name::Component > >'],) in wrapper public: retval? ???::begin (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6642: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > >'],) in wrapper public: retval? ???::end (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6646: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< ns3::ndn::name::Component *, std::vector< ns3::ndn::name::Component > >'],) in wrapper public: retval? ???::end (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6675: Warning: exception TypeLookupError(['std::reverse_iterator< __gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > > >'],) in wrapper public: retval? ???::rbegin (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6679: Warning: exception TypeLookupError(['std::reverse_iterator< __gnu_cxx::__normal_iterator< ns3::ndn::name::Component *, std::vector< ns3::ndn::name::Component > > >'],) in wrapper public: retval? ???::rbegin (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6684: Warning: exception TypeLookupError(['std::reverse_iterator< __gnu_cxx::__normal_iterator< ns3::ndn::name::Component const *, std::vector< ns3::ndn::name::Component > > >'],) in wrapper public: retval? ???::rend (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6688: Warning: exception TypeLookupError(['std::reverse_iterator< __gnu_cxx::__normal_iterator< ns3::ndn::name::Component *, std::vector< ns3::ndn::name::Component > > >'],) in wrapper public: retval? ???::rend (params?);
+  [])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6703: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::toUri (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6757: Warning: exception TypeLookupError(['ns3::Ptr< ns3::NetDevice > &'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb66077ac>
+  cls.add_constructor([param('ns3::Ptr< ns3::Node >', 'node'), param('ns3::Ptr< ns3::NetDevice > const &', 'netDevice')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6762: Warning: exception TypeLookupError(['ns3::Callback< void, ns3::Ptr< ns3::ndn::Face >, ns3::Ptr< ns3::ndn::Interest >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty > &'],) in wrapper public: virtual retval? ???::RegisterProtocolHandlers (params?);
+  is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6772: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6855: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const = 0;
+  is_pure_virtual=True, is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6992: Warning: exception TypeLookupError(['ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::AddNetDeviceFaceCreateCallback (params?);
+  [param('ns3::TypeId', 'netDeviceType'), param('ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >', 'callback')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:6996: Warning: exception TypeLookupError(['ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::UpdateNetDeviceFaceCreateCallback (params?);
+  [param('ns3::TypeId', 'netDeviceType'), param('ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >', 'callback')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7000: Warning: exception TypeLookupError(['ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >'],) in wrapper public: retval? ???::RemoveNetDeviceFaceCreateCallback (params?);
+  [param('ns3::TypeId', 'netDeviceType'), param('ns3::Callback< ns3::Ptr< ns3::ndn::NetDeviceFace >, ns3::Ptr< ns3::Node >, ns3::Ptr< ns3::ndn::L3Protocol >, ns3::Ptr< ns3::NetDevice >, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty, ns3::empty >', 'callback')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7158: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7183: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7190: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb65348ec>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('ns3::Ptr< ns3::Node >', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7192: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb653496c>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('std::string const &', 'nodeName')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7212: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper public: retval? ???::Install (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7272: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper protected: virtual retval? ???::Print (params?) const;
+  is_const=True, visibility='protected', is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7277: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper protected: virtual retval? ???::PrintHeader (params?) const;
+  is_const=True, visibility='protected', is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7304: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb65577cc>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('ns3::Ptr< ns3::Node >', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7306: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb655780c>
+  cls.add_constructor([param('boost::shared_ptr< std::ostream >', 'os'), param('std::string const &', 'node')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7326: Warning: exception TypeLookupError(['boost::shared_ptr< std::ostream >'],) in wrapper public: retval? ???::Install (params?);
+  is_static=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7336: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::Print (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7341: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: virtual retval? ???::PrintHeader (params?) const;
+  is_const=True, is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7440: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Name const > &'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb6501acc>
+  cls.add_constructor([param('ns3::Ptr< ns3::ndn::Fib >', 'fib'), param('ns3::Ptr< ns3::ndn::Name const > const &', 'prefix')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7466: Warning: exception TypeLookupError(['ns3::Ptr< ns3::ndn::Face > &'],) in wrapper public: retval? ???::RemoveFace (params?);
+  [param('ns3::Ptr< ns3::ndn::Face > const &', 'face')])
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception TypeLookupError(['boost::multi_index::multi_index_container< ns3::ndn::fib::FaceMetric, boost::multi_index::indexed_by< boost::multi_index::ordered_unique< boost::multi_index::tag< ns3::ndn::fib::i_face, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na >, boost::multi_index::const_mem_fun< ns3::ndn::fib::FaceMetric, ns3::Ptr< ns3::ndn::Face >, & ( ns3::ndn::fib::FaceMetric::GetFace (  ) const ) >, mpl_::na >, boost::multi_index::ordered_non_unique< boost::multi_index::tag< ns3::ndn::fib::i_metric, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na >, boost::multi_index::composite_key< ns3::ndn::fib::FaceMetric, boost::multi_index::const_mem_fun< ns3::ndn::fib::FaceMetric, ns3::ndn::fib::FaceMetric::Status, & ( ns3::ndn::fib::FaceMetric::GetStatus (  ) const ) >, boost::multi_index::const_mem_fun< ns3::ndn::fib::FaceMetric, int, & ( ns3::ndn::fib::FaceMetric::GetRoutingCost (  ) const ) >, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type, boost::tuples::null_type >, mpl_::na >, boost::multi_index::random_access< boost::multi_index::tag< ns3::ndn::fib::i_nth, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na > >, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na, mpl_::na >, std::allocator< ns3::ndn::fib::FaceMetric > >'],) in wrapper None
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7593: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char const *, std::string >'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb64b3c6c>
+  cls.add_constructor([param('__gnu_cxx::__normal_iterator< char const *, std::string >', 'begin'), param('__gnu_cxx::__normal_iterator< char const *, std::string >', 'end')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7595: Warning: exception TypeLookupError(['void *'],) in wrapper <pybindgen.cppmethod.CppConstructor object at 0xb64b3cec>
+  cls.add_constructor([param('void const *', 'buf'), param('size_t', 'length')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7616: Warning: exception TypeLookupError(['__gnu_cxx::__normal_iterator< char const *, std::string >'],) in wrapper public: retval? ???::fromUri (params?);
+  [param('__gnu_cxx::__normal_iterator< char const *, std::string >', 'begin'), param('__gnu_cxx::__normal_iterator< char const *, std::string >', 'end')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7631: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::toBlob (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7661: Warning: exception TypeLookupError(['std::ostream &'],) in wrapper public: retval? ???::toUri (params?) const;
+  is_const=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7678: Warning: exception TypeLookupError(['boost::shared_ptr< ns3::ndn::fw::Tag >'],) in wrapper public: retval? ???::AddFwTag (params?);
+  [param('boost::shared_ptr< ns3::ndn::fw::Tag >', 'tag')])
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7683: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< ns3::ndn::pit::IncomingFace >'],) in wrapper public: virtual retval? ???::AddIncoming (params?);
+  is_virtual=True)
+/home/vartika-kite/ndnSim2/ns-3/src/ndnSIM/bindings/modulegen__gcc_ILP32.py:7688: Warning: exception TypeLookupError(['std::_Rb_tree_const_iterator< ns3::ndn::pit::OutgoingFace >'],) in wrapper public: virtual retval? ???::AddOutgoing (params?);
+  is_virtual=True)
+/home/vartika-kite/ndnSim2/pybindgen/pybindgen/cppclass.py:3810: UserWarning: Returning shared pointers is dangerous!  The C++ API should be redesigned to avoid this situation.
+  warnings.warn("Returning shared pointers is dangerous!"
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::ContentStore cannot be constructed (have pure virtual methods but no helper class)',) in wrapper <pybindgen.CppClass 'ns3::ndn::ContentStore'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::ForwardingStrategy cannot be constructed (class has pure virtual methods)',) in wrapper <pybindgen.CppClass 'ns3::ndn::ForwardingStrategy'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::L3Tracer cannot be constructed (have pure virtual methods but no helper class)',) in wrapper <pybindgen.CppClass 'ns3::ndn::L3Tracer'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::Limits cannot be constructed (class has pure virtual methods)',) in wrapper <pybindgen.CppClass 'ns3::ndn::Limits'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::NameChecker cannot be constructed (have pure virtual methods but no helper class)',) in wrapper <pybindgen.CppClass 'ns3::ndn::NameChecker'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::Pit cannot be constructed (have pure virtual methods but no helper class)',) in wrapper <pybindgen.CppClass 'ns3::ndn::Pit'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::ndn::RttEstimator cannot be constructed (class has pure virtual methods)',) in wrapper <pybindgen.CppClass 'ns3::ndn::RttEstimator'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))
+bindings/python/ns3modulegen-modular.py:27: UserWarning: exception CodeGenerationError('ns3::L2Tracer cannot be constructed (have pure virtual methods but no helper class)',) in wrapper <pybindgen.CppClass 'ns3::L2Tracer'>
+  warnings.warn("exception %r in wrapper %s" % (exception, wrapper))

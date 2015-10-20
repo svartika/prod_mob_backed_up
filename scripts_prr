@@ -1,0 +1,24 @@
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "prr \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=0 --size=1 --grid=4 --stop=200"
+
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "prr \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=2 --size=1 --grid=4 --stop=200"
+
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "prr \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=4 --size=1 --grid=4 --stop=200"
+
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "prr \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed=6 --size=1 --grid=4 --stop=200"
+
+NS_GLOBAL_VALUE="RngRun=4" \
+./waf --run "prr \
+--ns3::ndn::fw::PitForwarding::Pull=true \
+--kite=1 --speed8 --size=1 --grid=4 --stop=200"
