@@ -62,14 +62,17 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 	Ptr<pit::Entry> pfEntry = m_pit->Find (interest->GetPitForwardingName ()); //first record with shorter or equal prefix as in content object will be found
 	if (pfEntry == 0)
 	{
-		//NS_LOG_DEBUG ("\n======\n" << *m_pit << "=====\n");
 		//NS_LOG_DEBUG ("! Entry Not Found");
-		return false;
+
+		//doubt -- right now I am putting step (4) here but i will move this to doFlooding ..not Fib entry found after adding routes in to that -- 20151020 --vartika
+		//(4) begins
+		std::cout<<"vartika1";
+		NS_LOG_INFO ("vartika1");
+		if(RedirectInterestToAnchor(inFace, interest, pitEntry)) return true;
+		//(4) ends
 	}
-
-	//NS_LOG_INFO ("vartika says: PF Name: " << interest->GetPitForwardingName () << ": Face: " << *inFace << ": pfEntry->GetInterest(): " << pfEntry->GetInterest ()->GetName ()); //20151014
-
-
+	std::cout<<"vartika2";
+	NS_LOG_INFO ("vartika2");
 	Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
 	// Issue: for Interests with the same name, only the first one is here
 	if ((pfInterest->GetPitForwardingFlag () & 1) != 1) // If not Tracable
@@ -103,6 +106,102 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 
 	NS_LOG_INFO ("Propagated to " << propagatedCount << " faces");
 	return propagatedCount > 0;
+}
+
+bool
+AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
+                           Ptr<const Interest> interest,
+                           Ptr<pit::Entry> pitEntry)
+{
+  NS_LOG_FUNCTION ("vartika1: "<<this << interest->GetName ());
+
+  int propagatedCount = 0;
+  // If No FIB entry or Only default entry, do not forward
+  if ((! pitEntry->GetFibEntry ()) || (pitEntry->GetFibEntry ()->GetPrefix ().toUri () == "/"))
+    {
+      NS_LOG_DEBUG ("! No FIB entry");
+      return 0;
+    }
+
+  BOOST_FOREACH (const fib::FaceMetric &metricFace, pitEntry->GetFibEntry ()->m_faces.get<fib::i_metric> ())
+    {
+      //NS_LOG_DEBUG ("Trying " << boost::cref(metricFace));
+      if (metricFace.GetStatus () == fib::FaceMetric::NDN_FIB_RED) // all non-read faces are in the front of the list
+        break;
+
+      if (!TrySendOutInterest (inFace, metricFace.GetFace (), interest, pitEntry))
+        {
+          NS_LOG_DEBUG ("Failed: Propagated to " << *metricFace.GetFace ());
+          continue;
+        }
+      NS_LOG_DEBUG ("Propagated to " << *metricFace.GetFace ());
+      propagatedCount++;
+    }
+
+  NS_LOG_INFO ("Propagated to " << propagatedCount << " faces");
+  return propagatedCount > 0;
+}
+
+bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const Interest> orgInterest, Ptr<pit::Entry> pitEntry)
+{
+	//extract anchor
+	Ptr<const ndn::Name> name = orgInterest->GetNamePtr ();
+	Ptr<ndn::Name> interestName = Create<ndn::Name> (name->toUri ());
+
+	std::string seqPrefix = name->getPostfix (1, 0).toUri ();
+	//std::cout<<"seqPrefix: " << seqPrefix;
+	//NS_LOG_INFO ("vartika1: seqPrefix: " << seqPrefix);
+
+	std::string anchorPrefix = name->getPostfix (1, 1).toUri ();
+	//std::cout<<"anchorPrefix: " << anchorPrefix;
+	//NS_LOG_INFO ("vartika1: anchorPrefix: " << anchorPrefix);
+
+	std::string producerPrefix = name->getPrefix (2,0).toUri ();
+	//std::cout<<"producerPrefix: " << producerPrefix;
+	//NS_LOG_INFO ("vartika1: producerPrefix: " << producerPrefix);
+
+	//change interest name from /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14
+	std::string newName  = anchorPrefix+producerPrefix+seqPrefix;
+	//std::cout<<"newName: "<<newName;
+	//NS_LOG_INFO ("vartika1: newName: " << newName);
+	Ptr<ndn::Name> newInterestName =   Create<ndn::Name>(newName);
+
+	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
+	interest->SetNonce            (orgInterest->GetNonce());
+	interest->SetName             (newInterestName);
+	interest->SetInterestLifetime (orgInterest->GetInterestLifetime());
+	interest->SetPitForwardingFlag (orgInterest->GetPitForwardingFlag ());
+	if(interest->GetPitForwardingNamePtr () != 0) {
+		interest->SetPitForwardingName (orgInterest->GetPitForwardingName ());
+	}
+	//create new interest with new name ( /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14)
+
+	std::cout<<"interest->GetName(): "<<interest->GetName();
+	NS_LOG_INFO ("vartika1: interest->GetName(): " << interest->GetName());
+
+	//express new interest - taken care below
+	//make PIT entry - taken care below
+	Ptr<pit::Entry> newPitEntry =  m_pit->Create (interest);
+	if (newPitEntry != 0)
+	{
+		DidCreatePitEntry (inFace, interest, newPitEntry);
+	}
+	else
+	{
+		FailedToCreatePitEntry (inFace, interest);
+		return false;
+	}
+
+	if( DoFlooding (inFace, interest, newPitEntry) )  {
+		std::cout<<"true from DoFlooding";
+		NS_LOG_INFO ("vartika1: true from DoFlooding");
+		return true;
+	}
+	else  {
+		std::cout<<"false from PitForwarding::DoFlooding";
+		NS_LOG_INFO ("vartika1: false from PitForwarding::DoFlooding");
+		return false;
+	}
 }
 
 //20151013

@@ -124,7 +124,8 @@ ProducerApp::SendTracedInterestToAnchor ()
 {
   Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
   UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
-  Ptr<ndn::Name> name = Create<ndn::Name> (m_anchorPrefix);
+  std::string interestName = m_anchorPrefix + m_mobilePrefix;
+  Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
   interest->SetNonce            (rand.GetValue ());
   interest->SetName             (name);
   interest->SetInterestLifetime (Seconds (m_requestPeriod)); // 1 is just a random value 

@@ -56,6 +56,7 @@ ConsumerApp::StartApplication ()
   m_anchorPrefix = "anchor1";
 
   m_seq = 1;
+  m_credit = 1;
   for (int i=0; i < m_credit; i++)
   {
 	  SendInterestToProducer (m_seq++);
@@ -104,6 +105,8 @@ return;
 void
 ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
+	std::cout<<"ConsumerApp::OnData ";
+	NS_LOG_INFO ("vartika1: ConsumerApp::OnData ");
 
 	/*vartika to write log here to track time when server (consumer) gets
 	data from mobie producer 20150923*/
@@ -131,6 +134,10 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ConsumerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
+	return;
+	std::cout<<"ConsumerApp::OnTimeout ";
+	NS_LOG_INFO ("vartika1: ConsumerApp::OnTimeout ");
+
   Ptr<const ndn::Name> name = interest->GetNamePtr ();
   SendInterestToProducer (name->get (-1).toNumber ());
   return;

@@ -177,7 +177,10 @@ PitForwarding::DoFlooding (Ptr<Face> inFace,
                            Ptr<const Interest> interest,
                            Ptr<pit::Entry> pitEntry)
 {
-  NS_LOG_FUNCTION (this << interest->GetName ());
+  NS_LOG_FUNCTION ("vartika1: "<<this << interest->GetName ());
+
+  std::cout<<this << interest->GetName ();
+  NS_LOG_INFO ("vartika1: this << interest->GetName (): " << this << interest->GetName ());
 
   int propagatedCount = 0;
   // If No FIB entry or Only default entry, do not forward
