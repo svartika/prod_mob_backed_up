@@ -115,6 +115,7 @@ ProducerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ProducerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
+	return;
   SendTracedInterestToAnchor ();
   return;
 }
@@ -124,16 +125,17 @@ ProducerApp::SendTracedInterestToAnchor ()
 {
   Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
   UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
-  std::string interestName = m_anchorPrefix + m_mobilePrefix;
+  std::string interestName = m_anchorPrefix;// + m_mobilePrefix; //maybe remove the mobile prefix from traced interest (only use from forwarding name)
   Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
   interest->SetNonce            (rand.GetValue ());
   interest->SetName             (name);
-  interest->SetInterestLifetime (Seconds (m_requestPeriod)); // 1 is just a random value 
+  interest->SetInterestLifetime (Seconds(4));//Seconds (m_requestPeriod));
   interest->SetPitForwardingFlag (1); // Tracable
+  interest->SetPitForwardingName (m_mobilePrefix);
 
   /*track time when mobile says i have data 20150923*/
   Time now = Simulator::Now();
-  std::cout << "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds();
+  std::cout << "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<"\n";
   std::ostringstream oss;
   oss<< "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<" , ";
   std::string tsLog(oss.str());

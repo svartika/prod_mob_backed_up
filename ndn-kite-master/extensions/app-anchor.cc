@@ -67,34 +67,29 @@ AnchorApp::StopApplication ()
 void
 AnchorApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> interest)
 {
-return;
-	/*vartika to write log here to track time when anchor
-	gets interest from mobile producer 20150923*/
-	Time now = Simulator::Now();
-	std::cout << "2.AnchorApp::OnInterest  " << now.GetMilliSeconds();
-	//20150924
-	std::ostringstream oss;
-	oss<< "2 AnchorApp::OnInterest: " << now.GetMilliSeconds()<<" , ";
-	std::string tsLog(oss.str());
-	Log::write_ts_to_log_file(tsLog);
-	oss.flush();
+	std::cout<<"AnchorApp::OnInterest: vartika says received interest at anchor: "<< this<<"origName: " <<origName->toUri()<<" interest: "<<interest->GetName()<<"\n";
+	NS_LOG_FUNCTION ("vartika says received interest at anchor: "<< this<<"origName: " <<origName->toUri()<<" interest: "<<interest->GetName());
 
-	NS_LOG_FUNCTION (interest);
-	if (m_seq > 0)
-	{
-		return;
-	}
-	Ptr<const ndn::Name> name = interest->GetNamePtr ();
-	m_uploadName = Create<ndn::Name> (name->toUri ());
-	m_mobilePrefix = name->getPostfix (m_mobilePrefixSize+1, 0).toUri ();
-	NS_LOG_DEBUG ("Mobile prefix " << m_mobilePrefix);
-	m_seq = 1;
-	int i = 0;
-	for (; i < m_credit; i++)
-	{
-		SendInterest (m_seq);
-		m_seq++;
-	}
+	/*		if tracing interest
+			if(interest->GetPitForwardingFlag () == 2) {
+				if(interest->GetPitForwardingNamePtr () != 0) {
+					std::string forwardingInterestName = interest->GetPitForwardingName ();
+					Ptr<pit::Entry> pfEntry = m_pit->Find (interest->GetPitForwardingName ());
+					if (pfEntry == 0) {
+						//no traced interest .. cannot forward yet..make PIT entry and wait
+					}
+				}
+			}*/
+	//if traced interest ( it will be taken care in forwarding engine - i.e. PIT entry will be made and it will be handled according to Kite)
+	//remove self name -> leaving /producer/file/%14 or extract trace name
+	//finds traced interest in PIT
+	//makes PIT entry for
+	//then follows the traced Interest to the new location
+
+	//implement (6) here
+	//todo on 21 october
+	//doubt i want to know what is the order of flow
+	//oninterest in cs on interest in application on interest of forwarding engine (forwarding strategy)
 }
 
 void
@@ -104,7 +99,7 @@ AnchorApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> d
 	/*vartika to write log here to track time when server (consumer) gets
 	data from mobie producer 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "6.ServerApp::OnData  " << now.GetMilliSeconds();
+	std::cout << "6.ServerApp::OnData  " << now.GetMilliSeconds()<<"\n";
 	//20150924
 	std::ostringstream oss;
 	oss<< "6 ServerApp::OnData: " << now.GetMilliSeconds() <<" , ";//std::endl;
@@ -151,7 +146,7 @@ AnchorApp::SendInterest (int seq)
 	/*vartika to write log here to track time when server (consumer)
 	sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "3.ServerApp::SendInterest " << now.GetMilliSeconds();
+	std::cout << "3.ServerApp::SendInterest " << now.GetMilliSeconds()<<"\n";
 	//20150924
 	std::ostringstream oss;
 	oss<< "3 ServerApp::SendInterest: " << now.GetMilliSeconds()<<" , ";

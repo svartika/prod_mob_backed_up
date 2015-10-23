@@ -53,6 +53,12 @@ protected:
                 Ptr<const Interest> interest,
                 Ptr<pit::Entry> pitEntry);
 
+  virtual int
+  Pull (Ptr<Face> inFace,
+          Ptr<const Interest> interest,
+          Ptr<pit::Entry> pitEntry);
+
+
   bool RedirectInterestToAnchor( Ptr<Face> inFace, Ptr<const Interest> orgInterest, Ptr<pit::Entry> pitEntry);
 protected:
   static LogComponent g_log;

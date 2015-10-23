@@ -41,6 +41,75 @@ AnchorPointForwarding::AnchorPointForwarding ()
   // m_pft = Create<Pft> ();
 }
 
+int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
+	int propagatedCount = 0;
+	std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"interest->GetName (): "<<interest->GetName ()<<"\n";
+	if (interest->GetPitForwardingNamePtr () != 0)
+		std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"interest->GetName (): "<<interest->GetName ()<<" .. interest->GetPitForwardingName (): "<<interest->GetPitForwardingName () <<"\n";
+
+	if (((interest->GetPitForwardingFlag () & 1) != 1))   { // if NOT Tracable
+		return 0;
+	}
+
+	for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
+	{
+		Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
+
+		if (pfInterest->GetPitForwardingNamePtr () != 0)
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" pfInterest->GetPitForwardingName (): "<<pfInterest->GetPitForwardingName ()<<"\n";
+		else
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"pfInterest->GetPitForwardingName (): empty"<<"\n";
+
+		if (pfInterest->GetPitForwardingNamePtr () != 0 && interest->GetPitForwardingNamePtr () != 0 ) {
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" pfInterest->GetPitForwardingNamePtr (): "<<pfInterest->GetPitForwardingNamePtr ()<<"\n";
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" interest->GetPitForwardingNamePtr (): "<<interest->GetPitForwardingNamePtr ()<<"\n";
+			std::string interestForwardingName = interest->GetPitForwardingName().toUri();
+			std::string pfInterestForwardingName  = pfInterest->GetPitForwardingName().toUri();
+			if(interestForwardingName.compare(pfInterestForwardingName) ==0) {
+				pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
+				std::cout<<"AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<"*inFace: "<<*inFace<<"\n";
+				if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
+				{
+					Ptr<Face> outFace = 0;
+					pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
+					std::cout<<"AnchorPointForwarding::Pull : face->m_face "<<face->m_face<<"\n";
+					for (; face != pfEntry->GetIncoming ().end (); face++)
+					{
+						int num=0;
+						std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
+						std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<<"\n";
+						if (inFace != face->m_face)
+						{
+							outFace = face->m_face;
+							std::cout<<"num: "<<num<<"endl";
+							break;
+						}
+					}
+					if (outFace == 0) // pulled by itself
+					{
+						std::cout<<"do you come here?"<<"\n";
+						return 0;
+					}
+					NS_LOG_INFO ("Interest Pulled by " << interest->GetName ());
+					NS_LOG_DEBUG ("Inface: " << *outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest);
+					std::cout<<"AnchorPointForwarding::Pull: "<<"Interest Pulled by " << interest->GetName ()<<"\n";
+					std::cout<<"AnchorPointForwarding::Pull at: "<<*outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest<<"\n";
+					if (TrySendOutInterest (outFace, inFace, pfInterest, pfEntry))
+					{
+						NS_LOG_DEBUG ("Succeed: Interest Pulled to " << *inFace);
+						propagatedCount++;
+					}
+					else
+					{
+						NS_LOG_DEBUG ("Failed: Interest Pulled to " << *inFace);
+					}
+				}
+			}
+		}
+	}
+	return propagatedCount;
+}
 
 bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
 {
@@ -49,7 +118,8 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 	if ((interest->GetPitForwardingFlag () & 1) == 1) // If Traceable
 	{
 		// To-do: Pit Forwarding Table
-		if (m_pull) Pull (inFace, interest, pitEntry);
+		std::cout<<"DoPitForwarding Pull at: "<<this<<interest->GetName ()<<"with m_pull: "<<m_pull<<"\n";
+		if (m_pull) AnchorPointForwarding::Pull (inFace, interest, pitEntry);
 	}
 
 	if (interest->GetPitForwardingNamePtr () == 0)
@@ -66,12 +136,13 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 
 		//doubt -- right now I am putting step (4) here but i will move this to doFlooding ..not Fib entry found after adding routes in to that -- 20151020 --vartika
 		//(4) begins
-		std::cout<<"vartika1";
+		std::cout<<"AnchorPointForwarding::DoPitForwarding at: "<<this<<" vartika1 (pfEntry == 0)"<<"\n";
 		NS_LOG_INFO ("vartika1");
 		if(RedirectInterestToAnchor(inFace, interest, pitEntry)) return true;
+		else return false;
 		//(4) ends
 	}
-	std::cout<<"vartika2";
+	std::cout<<"AnchorPointForwarding::DoPitForwarding at: "<<this<<" vartika2 (pfEntry != 0)"<<"\n";
 	NS_LOG_INFO ("vartika2");
 	Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
 	// Issue: for Interests with the same name, only the first one is here
@@ -151,19 +222,22 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	std::string seqPrefix = name->getPostfix (1, 0).toUri ();
 	//std::cout<<"seqPrefix: " << seqPrefix;
 	//NS_LOG_INFO ("vartika1: seqPrefix: " << seqPrefix);
+	if(seqPrefix.compare("/")==0) return false;
 
 	std::string anchorPrefix = name->getPostfix (1, 1).toUri ();
 	//std::cout<<"anchorPrefix: " << anchorPrefix;
 	//NS_LOG_INFO ("vartika1: anchorPrefix: " << anchorPrefix);
+	if(anchorPrefix.compare("/")==0) return false;
 
 	std::string producerPrefix = name->getPrefix (2,0).toUri ();
 	//std::cout<<"producerPrefix: " << producerPrefix;
 	//NS_LOG_INFO ("vartika1: producerPrefix: " << producerPrefix);
+	if(producerPrefix.compare("/")==0) return false;
 
 	//change interest name from /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14
 	std::string newName  = anchorPrefix+producerPrefix+seqPrefix;
-	//std::cout<<"newName: "<<newName;
-	//NS_LOG_INFO ("vartika1: newName: " << newName);
+	std::cout<<"newName: "<<newName;
+	NS_LOG_INFO ("vartika1: newName: " << newName);
 	Ptr<ndn::Name> newInterestName =   Create<ndn::Name>(newName);
 
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
@@ -171,12 +245,12 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	interest->SetName             (newInterestName);
 	interest->SetInterestLifetime (orgInterest->GetInterestLifetime());
 	interest->SetPitForwardingFlag (orgInterest->GetPitForwardingFlag ());
-	if(interest->GetPitForwardingNamePtr () != 0) {
+	if(orgInterest->GetPitForwardingNamePtr () != 0) {
 		interest->SetPitForwardingName (orgInterest->GetPitForwardingName ());
 	}
 	//create new interest with new name ( /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14)
 
-	std::cout<<"interest->GetName(): "<<interest->GetName();
+	std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<"interest->GetName(): "<<interest->GetName()<<"\n";
 	NS_LOG_INFO ("vartika1: interest->GetName(): " << interest->GetName());
 
 	//express new interest - taken care below
@@ -193,12 +267,12 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	}
 
 	if( DoFlooding (inFace, interest, newPitEntry) )  {
-		std::cout<<"true from DoFlooding";
+		std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<" true from DoFlooding"<<"\n";
 		NS_LOG_INFO ("vartika1: true from DoFlooding");
 		return true;
 	}
 	else  {
-		std::cout<<"false from PitForwarding::DoFlooding";
+		std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<" false from PitForwarding::DoFlooding"<<"\n";
 		NS_LOG_INFO ("vartika1: false from PitForwarding::DoFlooding");
 		return false;
 	}
@@ -207,7 +281,7 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 //20151013
 void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest)
 {
-
+  std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" inFace << interest->GetName (): "<<inFace << interest->GetName ()<<"\n";
   NS_LOG_FUNCTION (inFace << interest->GetName ());
   m_inInterests (interest, inFace);
 

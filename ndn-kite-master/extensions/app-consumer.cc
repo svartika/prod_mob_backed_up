@@ -105,7 +105,7 @@ return;
 void
 ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
-	std::cout<<"ConsumerApp::OnData ";
+	std::cout<<"ConsumerApp::OnData "<<"\n";
 	NS_LOG_INFO ("vartika1: ConsumerApp::OnData ");
 
 	/*vartika to write log here to track time when server (consumer) gets
@@ -135,7 +135,7 @@ void
 ConsumerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
 	return;
-	std::cout<<"ConsumerApp::OnTimeout ";
+	std::cout<<"ConsumerApp::OnTimeout "<<"\n";
 	NS_LOG_INFO ("vartika1: ConsumerApp::OnTimeout ");
 
   Ptr<const ndn::Name> name = interest->GetNamePtr ();
@@ -156,7 +156,7 @@ ConsumerApp::SendInterestToProducer (int seq)
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
-	interest->SetInterestLifetime (Seconds (m_requestPeriod)); // 1 is just a random value
+	interest->SetInterestLifetime (Seconds (4));//( m_requestPeriod));
 
 	//vartika has a doubt here - 20151019
 	//i think this will always fail ..PIT will be only present from producer to anchor not in this path!
@@ -165,7 +165,7 @@ ConsumerApp::SendInterestToProducer (int seq)
 
 	/*track time when server (consumer) sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "3 ConsumerApp::SendInterestToProducer " << now.GetMilliSeconds();
+	std::cout << "3 ConsumerApp::SendInterestToProducer " << now.GetMilliSeconds()<<"\n";
 	std::ostringstream oss;
 	oss<< "3 ConsumerApp::SendInterestToProducer: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog(oss.str());

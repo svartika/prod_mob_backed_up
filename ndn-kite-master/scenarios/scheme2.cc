@@ -107,7 +107,7 @@ main (int argc, char *argv[])
 
 
 	int anchorPos = gridSize%2==0? (gridSize/2)-1 : (gridSize-1)/2;
-	Ptr<Node> anchorNode = grid.GetNode (anchorPos, 0);
+	Ptr<Node> anchorNode = grid.GetNode (anchorPos, anchorPos);
 
 	//set route to anchor - begins
 
@@ -127,13 +127,13 @@ main (int argc, char *argv[])
 	ApplicationContainer anchorApp = anchorAppHelper.Install (anchorNode);
 	anchorApp.Start (Seconds (0));
 
-	ndn::AppHelper consumerAppHelper ("ConsumerApp");
-	ApplicationContainer consumerApp= consumerAppHelper.Install (consNode);
-	consumerApp.Start (Seconds (1));
-
 	ndn::AppHelper producerAppHelper ("ProducerApp");
 	ApplicationContainer producerApp = producerAppHelper.Install (mobileNodes);
 	producerApp.Start (Seconds (2));
+
+	ndn::AppHelper consumerAppHelper ("ConsumerApp");
+	ApplicationContainer consumerApp= consumerAppHelper.Install (consNode);
+	consumerApp.Start (Seconds (1));
 
 	std::cout<<"vartika says..is ok?";
 	Simulator::Stop (Seconds (stopTime));
