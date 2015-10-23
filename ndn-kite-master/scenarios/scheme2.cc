@@ -125,15 +125,15 @@ main (int argc, char *argv[])
 
 	ndn::AppHelper anchorAppHelper ("AnchorApp");
 	ApplicationContainer anchorApp = anchorAppHelper.Install (anchorNode);
-	anchorApp.Start (Seconds (0));
+	anchorApp.Start (Seconds (0.0));
 
 	ndn::AppHelper producerAppHelper ("ProducerApp");
 	ApplicationContainer producerApp = producerAppHelper.Install (mobileNodes);
-	producerApp.Start (Seconds (2));
+	producerApp.Start (Seconds (2.0));
 
 	ndn::AppHelper consumerAppHelper ("ConsumerApp");
 	ApplicationContainer consumerApp= consumerAppHelper.Install (consNode);
-	consumerApp.Start (Seconds (1));
+	consumerApp.Start (Seconds (1.0));
 
 	std::cout<<"vartika says..is ok?";
 	Simulator::Stop (Seconds (stopTime));

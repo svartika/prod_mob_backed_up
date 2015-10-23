@@ -62,6 +62,9 @@ protected:
   bool RedirectInterestToAnchor( Ptr<Face> inFace, Ptr<const Interest> orgInterest, Ptr<pit::Entry> pitEntry);
 protected:
   static LogComponent g_log;
+
+
+
 };
 
 } // namespace fw

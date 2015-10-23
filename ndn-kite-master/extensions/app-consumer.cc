@@ -156,7 +156,7 @@ ConsumerApp::SendInterestToProducer (int seq)
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
-	interest->SetInterestLifetime (Seconds (4));//( m_requestPeriod));
+	interest->SetInterestLifetime (Seconds (4.0));//( m_requestPeriod));
 
 	//vartika has a doubt here - 20151019
 	//i think this will always fail ..PIT will be only present from producer to anchor not in this path!

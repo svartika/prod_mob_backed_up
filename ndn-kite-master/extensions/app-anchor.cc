@@ -139,7 +139,7 @@ AnchorApp::SendInterest (int seq)
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
-	interest->SetInterestLifetime (Seconds (m_requestPeriod)); // 1 is just a random value
+	interest->SetInterestLifetime (Seconds(4)); //Seconds (m_requestPeriod)); // 1 is just a random value
 	interest->SetPitForwardingFlag (2); // TraceOnly
 	interest->SetPitForwardingName (m_uploadName);
 
