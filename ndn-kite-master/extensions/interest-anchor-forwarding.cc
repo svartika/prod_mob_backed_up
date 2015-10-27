@@ -185,11 +185,13 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
                            Ptr<pit::Entry> pitEntry)
 {
   NS_LOG_FUNCTION ("vartika1: "<<this << interest->GetName ());
+  std::cout<<"AnchorPointForwarding::DoFlooding "<< this << interest->GetName () <<"\n";
 
   int propagatedCount = 0;
   // If No FIB entry or Only default entry, do not forward
   if ((! pitEntry->GetFibEntry ()) || (pitEntry->GetFibEntry ()->GetPrefix ().toUri () == "/"))
     {
+	  std::cout<<"AnchorPointForwarding::DoFlooding says No FIB entry"<<"\n";
       NS_LOG_DEBUG ("! No FIB entry");
       return 0;
     }
@@ -200,16 +202,73 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
       if (metricFace.GetStatus () == fib::FaceMetric::NDN_FIB_RED) // all non-read faces are in the front of the list
         break;
 
+      std::string myString = "blah";
+      std::stringstream buffer;
+      metricFace.GetFace()->Print(buffer);
+      myString = buffer.str();
+      std::cout<<"myString: "<<myString<< "buffer.str()"<< buffer.str()<<"\n";
+      std::cout<<"myString.find(ApiFace): "<<myString.find("ApiFace") << "std::string::npos: "<<std::string::npos<<"\n";
+      //std::cout<<"metricFace.GetFace()->Print(std::cout)" <<metricFace.GetFace()->Print(std::cout)<<"\n";
+      //std::cout<<"metricFace.GetFace()->GetTypeId ().GetName(): "<<metricFace.GetFace()->GetTypeId ().GetName()<<"metricFace.GetFace()->GetTypeId(): "<<metricFace.GetFace()->GetTypeId()<<"\n";
+      if(myString.find("ApiFace")!=std::string::npos) { //this means that it is on application face ..like dev=ApiFace(5)
+     // if(metricFace.GetFace()->GetTypeId ().GetName().compare("ns3::ndn::NetDeviceFace")==0) {
+    	  std::cout<<"found match to string ApiFace ..local face"<<"\n";
+    	  std::cout<<"interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
+		  if(interest->GetName().toUri().find("/anchor1") !=std::string::npos ) {
+			  // interest to anchor1 and not on local face (on network interface)
+			  // traced or tracing - should not be consumed - this is a temporary hack - to ask jaebeom / dabin - doubt - 20151026
+
+			  //loop through pit table begins
+			  for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
+				{
+					Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
+
+					std::cout<<"AnchorPointForwarding::DoFlooding loop through pit table begins"<<"\n";
+
+					pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
+					std::cout<<"AnchorPointForwarding::DoFlooding : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
+					if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
+					{
+						Ptr<Face> outFace = 0;
+						pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
+						std::cout<<"AnchorPointForwarding::DoFlooding : face->m_face "<<face->m_face<<"\n";
+						for (; face != pfEntry->GetIncoming ().end (); face++)
+						{
+							int num=0;
+							std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
+							std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+							if (inFace != face->m_face)
+							{
+								outFace = face->m_face;
+								std::cout<<"num: "<<num<<"endl";
+								break;
+							}
+						}
+						if (outFace == 0) // pulled by itself
+						{
+							std::cout<<"outFace is zero...in do flooding..this was after not sending the interest to app layer so i assumed it would be in PIT...but this seems to be not true"<<"\n";
+						}
+
+					}
+
+				}
+			  //loop through pit table ends
+			  break;
+		  }
+      }
       if (!TrySendOutInterest (inFace, metricFace.GetFace (), interest, pitEntry))
         {
           NS_LOG_DEBUG ("Failed: Propagated to " << *metricFace.GetFace ());
+          std::cout<<"AnchorPointForwarding::DoFlooding Failed: Propagated to " << *metricFace.GetFace ()<<"\n";
           continue;
         }
       NS_LOG_DEBUG ("Propagated to " << *metricFace.GetFace ());
+      std::cout<<"AnchorPointForwarding::DoFlooding Propagated to " << *metricFace.GetFace ()<<"\n";
       propagatedCount++;
     }
 
   NS_LOG_INFO ("Propagated to " << propagatedCount << " faces");
+  std::cout<<"AnchorPointForwarding::DoFlooding return value: Propagated to " << propagatedCount << " faces"<<"\n";
   return propagatedCount > 0;
 }
 
@@ -272,8 +331,8 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 		return true;
 	}
 	else  {
-		std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<" false from PitForwarding::DoFlooding"<<"\n";
-		NS_LOG_INFO ("vartika1: false from PitForwarding::DoFlooding");
+		std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<" false from PitForwarding. Now, DoFlooding"<<"\n";
+		NS_LOG_INFO ("vartika1: false from PitForwarding. Now, DoFlooding");
 		return false;
 	}
 }
