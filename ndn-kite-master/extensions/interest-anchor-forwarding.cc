@@ -62,8 +62,7 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"pfInterest->GetPitForwardingName (): empty"<<"\n";
 
 		if (pfInterest->GetPitForwardingNamePtr () != 0 && interest->GetPitForwardingNamePtr () != 0 ) {
-			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" current entry->GetPitForwardingNamePtr (): "<<pfInterest->GetPitForwardingNamePtr ()<<"\n";
-			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" incoming interest->GetPitForwardingNamePtr (): "<<interest->GetPitForwardingNamePtr ()<<"\n";
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" current entry->GetPitForwardingNamePtr (): "<<pfInterest->GetPitForwardingNamePtr ()<<" interest->GetPitForwardingNamePtr (): "<<interest->GetPitForwardingNamePtr ()<<"\n";
 			std::string interestForwardingName = interest->GetPitForwardingName().toUri();
 			std::string pfInterestForwardingName  = pfInterest->GetPitForwardingName().toUri();
 			if(interestForwardingName.compare(pfInterestForwardingName) ==0) {
@@ -77,8 +76,8 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 					for (; face != pfEntry->GetIncoming ().end (); face++)
 					{
 						int num=0;
-						std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
-						std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+						std::cout<<"AnchorPointForwarding::Pull: pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+
 						if (inFace != face->m_face)
 						{
 							outFace = face->m_face;
@@ -88,13 +87,12 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 					}
 					if (outFace == 0) // pulled by itself
 					{
-						std::cout<<"outFace is zero...(this means that there was no tracing interest waiting for this traced interest)"<<"\n";
+						std::cout<<"AnchorPointForwarding::Pull: outFace is zero in AnchorPointForwarding::Pull"<<"\n";
 						return 0;
 					}
 					NS_LOG_INFO ("Interest Pulled by " << interest->GetName ());
 					NS_LOG_DEBUG ("Inface: " << *outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest);
-					std::cout<<"AnchorPointForwarding::Pull: "<<"Interest Pulled by " << interest->GetName ()<<"\n";
-					std::cout<<"AnchorPointForwarding::Pull at: "<<*outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest<<"\n";
+					std::cout<<"AnchorPointForwarding::Pull: "<<"Interest Pulled by " << interest->GetName () <<" at: "<<*outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest<<"\n";
 					if (TrySendOutInterest (outFace, inFace, pfInterest, pfEntry))
 					{
 						NS_LOG_DEBUG ("Succeed: Interest Pulled to " << *inFace);
@@ -206,53 +204,16 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
       std::stringstream buffer;
       metricFace.GetFace()->Print(buffer);
       myString = buffer.str();
-      std::cout<<"myString: "<<myString<< "buffer.str()"<< buffer.str()<<"\n";
-      std::cout<<"myString.find(ApiFace): "<<myString.find("ApiFace") << "std::string::npos: "<<std::string::npos<<"\n";
+      //std::cout<<"myString: "<<myString<< "buffer.str()"<< buffer.str()<<"\n";
+      //std::cout<<"myString.find(ApiFace): "<<myString.find("ApiFace") << "std::string::npos: "<<std::string::npos<<"\n";
       //std::cout<<"metricFace.GetFace()->Print(std::cout)" <<metricFace.GetFace()->Print(std::cout)<<"\n";
       //std::cout<<"metricFace.GetFace()->GetTypeId ().GetName(): "<<metricFace.GetFace()->GetTypeId ().GetName()<<"metricFace.GetFace()->GetTypeId(): "<<metricFace.GetFace()->GetTypeId()<<"\n";
       if(myString.find("ApiFace")!=std::string::npos) { //this means that it is on application face ..like dev=ApiFace(5)
      // if(metricFace.GetFace()->GetTypeId ().GetName().compare("ns3::ndn::NetDeviceFace")==0) {
-    	  std::cout<<"found match to string ApiFace ..local face"<<"\n";
-    	  std::cout<<"interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
+    	  std::cout<<"found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
 		  if(interest->GetName().toUri().find("/anchor1") !=std::string::npos ) {
 			  // interest to anchor1 and not on local face (on network interface)
 			  // traced or tracing - should not be consumed - this is a temporary hack - to ask jaebeom / dabin - doubt - 20151026
-
-			  //loop through pit table begins
-			  for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
-				{
-					Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
-
-					std::cout<<"AnchorPointForwarding::DoFlooding loop through pit table begins"<<"\n";
-
-					pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
-					std::cout<<"AnchorPointForwarding::DoFlooding : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
-					if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
-					{
-						Ptr<Face> outFace = 0;
-						pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
-						std::cout<<"AnchorPointForwarding::DoFlooding : face->m_face "<<face->m_face<<"\n";
-						for (; face != pfEntry->GetIncoming ().end (); face++)
-						{
-							int num=0;
-							std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
-							std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
-							if (inFace != face->m_face)
-							{
-								outFace = face->m_face;
-								std::cout<<"num: "<<num<<"endl";
-								break;
-							}
-						}
-						if (outFace == 0) // pulled by itself
-						{
-							std::cout<<"outFace is zero...in do flooding..this was after not sending the interest to app layer so i assumed it would be in PIT...but this seems to be not true"<<"\n";
-						}
-
-					}
-
-				}
-			  //loop through pit table ends
 			  break;
 		  }
       }
@@ -265,7 +226,9 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
       NS_LOG_DEBUG ("Propagated to " << *metricFace.GetFace ());
       std::cout<<"AnchorPointForwarding::DoFlooding Propagated to " << *metricFace.GetFace ()<<"\n";
       propagatedCount++;
-    }
+  }
+
+  LoopOverPit(inFace, interest, "AnchorPointForwarding::DoFlooding");
 
   NS_LOG_INFO ("Propagated to " << propagatedCount << " faces");
   std::cout<<"AnchorPointForwarding::DoFlooding return value: Propagated to " << propagatedCount << " faces"<<"\n";
@@ -286,7 +249,8 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	std::string anchorPrefix = name->getPostfix (1, 1).toUri ();
 	//std::cout<<"anchorPrefix: " << anchorPrefix;
 	//NS_LOG_INFO ("vartika1: anchorPrefix: " << anchorPrefix);
-	if(anchorPrefix.compare("/")==0) return false;
+	if(anchorPrefix.compare("/")==0 ) return false;
+	if(anchorPrefix.compare("anchor1")==0 ) return false;
 
 	std::string producerPrefix = name->getPrefix (2,0).toUri ();
 	//std::cout<<"producerPrefix: " << producerPrefix;
@@ -336,11 +300,75 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 		return false;
 	}
 }
+void AnchorPointForwarding::LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> interest, std::string funcName) {
+  //loop through pit table begins
+ /* for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
+	{
+		Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
 
+		std::cout<<funcName<<" loop through pit table begins"<<"\n";
+
+		pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
+		std::cout<< funcName <<": pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
+		if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
+		{
+			Ptr<Face> outFace = 0;
+			pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
+			std::cout<<funcName<<": face->m_face "<<face->m_face<<"\n";
+			for (; face != pfEntry->GetIncoming ().end (); face++)
+			{
+				int num=0;
+				std::cout<<funcName<<": pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
+				std::cout<<funcName<<": inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+				if (inFace != face->m_face)
+				{
+					outFace = face->m_face;
+					std::cout<<funcName<<": num: "<<num<<"endl";
+					break;
+				}
+			}
+			if (outFace == 0) // pulled by itself
+			{
+				std::cout<<funcName<<": outFace is zero"<<"\n";
+			}
+
+		}
+
+	}*/
+  //loop through pit table ends
+
+  //loop two begins
+  for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
+  {
+	Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
+	std::cout<<funcName<<"::LoopOverPit:  pfInterest->GetName(): "<< pfInterest->GetName() <<"\n";
+	Ptr<Face> outFace = 0;
+	pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
+	std::cout<<funcName<<"::LoopOverPit: face->m_face "<<face->m_face<<"\n";
+	for (; face != pfEntry->GetIncoming ().end (); face++)
+	{
+		int num=0;
+		std::cout<<funcName<<"::LoopOverPit: pfEntry->GetIncoming(): "<<face->m_face<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+		std::cout<<funcName<<"::LoopOverPit: inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+		if (inFace != face->m_face)
+		{
+			outFace = face->m_face;
+			std::cout<<funcName<<"::LoopOverPit: num: "<<num<<"endl";
+			break;
+		}
+	}
+	if (outFace == 0) // pulled by itself
+	{
+		std::cout<<funcName<<"::LoopOverPit: outFace is zero"<<"\n";
+	}
+  }
+  //loop two ends
+
+}
 //20151013
 void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest)
 {
-  std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" *inFace - interest->GetName (): "<<*inFace << interest->GetName ()<<"\n";
+  std::cout<<"\n\nAnchorPointForwarding::OnInterest at: " << this <<" *inFace - interest->GetName (): "<<*inFace << interest->GetName ()<<"\n";
   NS_LOG_FUNCTION (inFace << interest->GetName ());
   m_inInterests (interest, inFace);
 
@@ -356,41 +384,8 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
         {
     	  ForwardingStrategy::DidCreatePitEntry (inFace, interest, pitEntry);
 
-    	  //loop through pit table begins
-    	  for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
-    	  	{
-    	  		Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
+    	  LoopOverPit(inFace, interest, "AnchorPointForwarding::OnInterest");
 
-    	  		std::cout<<"AnchorPointForwarding::OnInterest loop through pit table begins"<<"\n";
-
-				pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
-				std::cout<<"AnchorPointForwarding::OnInterest : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
-				if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
-				{
-					Ptr<Face> outFace = 0;
-					pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
-					std::cout<<"AnchorPointForwarding::OnInterest : face->m_face "<<face->m_face<<"\n";
-					for (; face != pfEntry->GetIncoming ().end (); face++)
-					{
-						int num=0;
-						std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
-						std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
-						if (inFace != face->m_face)
-						{
-							outFace = face->m_face;
-							std::cout<<"num: "<<num<<"endl";
-							break;
-						}
-					}
-					if (outFace == 0) // pulled by itself
-					{
-						std::cout<<"outFace is zero...in oninterest"<<"\n";
-					}
-
-				}
-
-    	  	}
-    	  //loop through pit table ends
           std::string interestName = "empty";
           if(interest->GetPitForwardingNamePtr () != 0)
         	  interestName = interest->GetPitForwardingName ().toUri();
@@ -415,6 +410,7 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
       DidReceiveDuplicateInterest (inFace, interest, pitEntry);
       return;
     }
+  std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" isDuplicated: " <<isDuplicated << "\n";
 
   Ptr<Data> contentObject;
   contentObject = m_contentStore->Lookup (interest);
@@ -433,6 +429,9 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
 
       // Actually satisfy pending interest
       SatisfyPendingInterest (0, contentObject, pitEntry);
+
+      std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" after calling SatisfyPendingInterest "  << "\n";
+
       return;
     }
 
@@ -447,12 +446,17 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
       m_dropInterests (interest, inFace);
 
       DidSuppressSimilarInterest (inFace, interest, pitEntry);
+
+      std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" after calling DidSuppressSimilarInterest "  << "\n";
+
       return;
     }
 
   if (similarInterest)
     {
       DidForwardSimilarInterest (inFace, interest, pitEntry);
+
+      std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" after calling DidForwardSimilarInterest "  << "\n";
     }
 
   PropagateInterest (inFace, interest, pitEntry);

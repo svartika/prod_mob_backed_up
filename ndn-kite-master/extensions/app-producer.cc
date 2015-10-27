@@ -115,7 +115,7 @@ ProducerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ProducerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
-	return;
+	//return;
   SendTracedInterestToAnchor ();
   return;
 }
@@ -129,7 +129,7 @@ ProducerApp::SendTracedInterestToAnchor ()
   Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
   interest->SetNonce            (rand.GetValue ());
   interest->SetName             (name);
-  interest->SetInterestLifetime (Seconds(4.0));//Seconds (m_requestPeriod));
+  interest->SetInterestLifetime (Seconds(2.0));//Seconds (m_requestPeriod));
   interest->SetPitForwardingFlag (1); // Tracable
   interest->SetPitForwardingName (m_mobilePrefix);
 

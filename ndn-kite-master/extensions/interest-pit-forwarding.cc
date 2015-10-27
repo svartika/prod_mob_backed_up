@@ -71,16 +71,24 @@ PitForwarding::Pull (Ptr<Face> inFace,
   for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
     {
       Ptr<const Interest> pfInterest = pfEntry->GetInterest (); 
+
+  	  std::cout<<"PitForwarding::Pull loop through pit table begins"<<"\n";
+
       if ( (pfInterest->GetPitForwardingNamePtr () != 0) &&
            (interest->GetName () == pfInterest->GetPitForwardingName ()) )
         {
           pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
+          std::cout<<"PitForwarding::Pull : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
+
           if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
             {
               Ptr<Face> outFace = 0;
               pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
+              std::cout<<"PitForwarding::Pull : face->m_face "<<face->m_face<<"\n";
               for (; face != pfEntry->GetIncoming ().end (); face++)
                 {
+            	  std::cout<<"pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
+            	  std::cout<<"inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
                   if (inFace != face->m_face)
                     {
                       outFace = face->m_face;
@@ -89,6 +97,7 @@ PitForwarding::Pull (Ptr<Face> inFace,
                 }
               if (outFace == 0) // pulled by itself
                 {
+            	  std::cout<<"outFace is zero in PitForwarding::Pull"<<"\n";
                   return 0;
                 }
               NS_LOG_INFO ("Interest Pulled by " << interest->GetName ());

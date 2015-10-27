@@ -60,8 +60,12 @@ protected:
 
 
   bool RedirectInterestToAnchor( Ptr<Face> inFace, Ptr<const Interest> orgInterest, Ptr<pit::Entry> pitEntry);
+
+  void LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> interest, std::string funcName);
+
 protected:
   static LogComponent g_log;
+
 
 
 

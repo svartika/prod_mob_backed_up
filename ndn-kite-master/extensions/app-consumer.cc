@@ -53,7 +53,7 @@ ConsumerApp::StartApplication ()
 
   //vartika request data - begins - 20151019
   m_mobilePrefix = "/producer/file";
-  m_anchorPrefix = "anchor1";
+  m_anchorPrefix = "/anchor1";
 
   m_seq = 1;
   m_credit = 1;
@@ -149,10 +149,11 @@ ConsumerApp::SendInterestToProducer (int seq)
 	NS_LOG_FUNCTION (seq);
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
 	UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
-	Ptr<ndn::Name> name = Create<ndn::Name> (m_mobilePrefix);
-	name->append("anchor"); //keyword
-	name->append(m_anchorPrefix);
-	name->appendNumber (seq);
+
+	Ptr<ndn::Name> name = Create<ndn::Name> (m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
+	//name->append("anchor"); //keyword  commented for now - doubt
+	//name->append(m_anchorPrefix);  //commented for now - doubt
+	// name->appendNumber (seq); // commented for now - doubt
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
