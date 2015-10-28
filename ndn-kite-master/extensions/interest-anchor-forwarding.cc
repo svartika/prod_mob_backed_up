@@ -214,7 +214,9 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
 		  if(interest->GetName().toUri().find("/anchor1") !=std::string::npos ) {
 			  // interest to anchor1 and not on local face (on network interface)
 			  // traced or tracing - should not be consumed - this is a temporary hack - to ask jaebeom / dabin - doubt - 20151026
-			  break;
+			  //break;
+			  LoopOverPit(inFace, interest, "AnchorPointForwarding::DoFlooding");
+			  return 1;
 		  }
       }
       if (!TrySendOutInterest (inFace, metricFace.GetFace (), interest, pitEntry))
@@ -338,6 +340,9 @@ void AnchorPointForwarding::LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> in
   //loop through pit table ends
 
   //loop two begins
+  std::cout<<funcName<<"::LoopOverPit:  m_pit: "<< m_pit <<" m_pit->Begin(): "<<m_pit->Begin()<<"\n";
+  std::cout<<funcName<<"::LoopOverPit: m_pit->GetSize ()" << m_pit->GetSize () <<"\n";
+  if(m_pit->GetMaxPitEntryLifetime ().GetMilliSeconds()<1000)m_pit->SetMaxPitEntryLifetime(Seconds(4.0));
   for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
   {
 	Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
@@ -353,7 +358,7 @@ void AnchorPointForwarding::LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> in
 		if (inFace != face->m_face)
 		{
 			outFace = face->m_face;
-			std::cout<<funcName<<"::LoopOverPit: num: "<<num<<"endl";
+			std::cout<<funcName<<"::LoopOverPit: num: "<<num<<"\n";
 			break;
 		}
 	}

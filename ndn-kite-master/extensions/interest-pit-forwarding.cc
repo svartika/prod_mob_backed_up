@@ -234,6 +234,7 @@ PitForwarding::DoPropagateInterest (Ptr<Face> inFace,
   NS_LOG_FUNCTION (this << interest->GetName ());
   //NS_LOG_INFO ("PF Name: " << interest->GetPitForwardingName () << " Face: " << *inFace << " Flag: " << (interest->GetPitForwardingFlag ()+60) );
 
+
   bool didPitForwarding = DoPitForwarding (inFace, interest, pitEntry);
 
   if (didPitForwarding && (interest->GetPitForwardingFlag () & 2) == 2) // If DidPit and TraceOnly
@@ -241,7 +242,7 @@ PitForwarding::DoPropagateInterest (Ptr<Face> inFace,
       return didPitForwarding;
     }
   bool didFlooding = DoFlooding (inFace, interest, pitEntry);      
-
+  //std::cout << "PitForwarding::DoPropagateInterest didFlooding: "<<didFlooding <<" didPitForwarding: "<<didPitForwarding<<"\n";
   return didPitForwarding || didFlooding;
 }
 

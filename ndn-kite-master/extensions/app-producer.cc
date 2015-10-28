@@ -69,9 +69,11 @@ ProducerApp::StopApplication ()
 void
 ProducerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> interest)
 {
+	Time now = Simulator::Now();
+	std::cout <<"4 ProducerApp::OnInterest::on_receive_interest: " << now.GetMilliSeconds()<<"\n";
 	/*vartika to write log here to track time when mobile gets
 	interest from server (consumer) to send data 20150923*/
-	Time now = Simulator::Now();
+
 	//std::cout << "4.MobileApp::OnInterest: on receive interest" << now.GetMilliSeconds();
 	//20150924
 	std::ostringstream oss;
@@ -115,7 +117,7 @@ ProducerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ProducerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
-	//return;
+	return;
   SendTracedInterestToAnchor ();
   return;
 }
