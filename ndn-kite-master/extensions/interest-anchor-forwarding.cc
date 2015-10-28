@@ -44,7 +44,7 @@ AnchorPointForwarding::AnchorPointForwarding ()
 int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
 {
 	int propagatedCount = 0;
-	std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"interest->GetName (): "<<interest->GetName ()<<"\n";
+	std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" interest->GetName (): "<<interest->GetName ()<<"\n";
 	//if (interest->GetPitForwardingNamePtr () != 0)
 	//	std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"interest->GetName (): "<<interest->GetName ()<<" .. interest->GetPitForwardingName (): "<<interest->GetPitForwardingName () <<"\n";
 
@@ -62,12 +62,13 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<"pfInterest->GetPitForwardingName (): empty"<<"\n";
 
 		if (pfInterest->GetPitForwardingNamePtr () != 0 && interest->GetPitForwardingNamePtr () != 0 ) {
-			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" current entry->GetPitForwardingNamePtr (): "<<pfInterest->GetPitForwardingNamePtr ()<<" interest->GetPitForwardingNamePtr (): "<<interest->GetPitForwardingNamePtr ()<<"\n";
 			std::string interestForwardingName = interest->GetPitForwardingName().toUri();
 			std::string pfInterestForwardingName  = pfInterest->GetPitForwardingName().toUri();
+			std::cout<<"AnchorPointForwarding::Pull at: "<<this<<" current entry-ForwardingName(): "<<pfInterestForwardingName<<" interest->ForwardingName: "<<interestForwardingName<<"\n";
+
 			if(interestForwardingName.compare(pfInterestForwardingName) ==0) {
 				pit::Entry::out_iterator face = pfEntry->GetOutgoing ().find (inFace);
-				std::cout<<"AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<"*inFace: "<<*inFace<<"\n";
+				std::cout<<"AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): "<<pfEntry->GetOutgoingCount ()<<" *inFace: "<<*inFace<<"\n";
 				if (face == pfEntry-> GetOutgoing ().end ()) // Not yet being sent to inFace
 				{
 					Ptr<Face> outFace = 0;
@@ -75,13 +76,12 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 					std::cout<<"AnchorPointForwarding::Pull : face->m_face "<<face->m_face<<"\n";
 					for (; face != pfEntry->GetIncoming ().end (); face++)
 					{
-						int num=0;
-						std::cout<<"AnchorPointForwarding::Pull: pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+						std::cout<<"AnchorPointForwarding::Pull: pfEntry->GetIncoming() face value in for loop: "<<face->m_face<<"\n";
 
 						if (inFace != face->m_face)
 						{
 							outFace = face->m_face;
-							std::cout<<"num: "<<num<<"endl";
+							std::cout<<"setting outface: "<<*outFace<<"\n";
 							break;
 						}
 					}
@@ -92,7 +92,7 @@ int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest,
 					}
 					NS_LOG_INFO ("Interest Pulled by " << interest->GetName ());
 					NS_LOG_DEBUG ("Inface: " << *outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest);
-					std::cout<<"AnchorPointForwarding::Pull: "<<"Interest Pulled by " << interest->GetName () <<" at: "<<*outFace << " Outface: " << *inFace << " pfInterest" << *pfInterest<<"\n";
+					std::cout<<"AnchorPointForwarding::Pull: "<<"Interest Pulled by " << interest->GetName () <<" towards: "<<*outFace << " inface: " << *inFace << " ..current Interest" << *pfInterest<<"\n";
 					if (TrySendOutInterest (outFace, inFace, pfInterest, pfEntry))
 					{
 						NS_LOG_DEBUG ("Succeed: Interest Pulled to " << *inFace);
@@ -116,7 +116,7 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 	if ((interest->GetPitForwardingFlag () & 1) == 1) // If Traceable
 	{
 		// To-do: Pit Forwarding Table
-		std::cout<<"DoPitForwarding Pull at: "<<this<<interest->GetName ()<<"with m_pull: "<<m_pull<<"\n";
+		std::cout<<"AnchorPointForwarding::DoPitForwarding  with m_pull: "<<m_pull<<"\n";
 		if (m_pull) AnchorPointForwarding::Pull (inFace, interest, pitEntry);
 	}
 
@@ -127,7 +127,7 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 
 	NS_LOG_FUNCTION (this << interest->GetName ());
 	NS_LOG_INFO ("PF Name: " << interest->GetPitForwardingName () << " Face: " << *inFace);
-	Ptr<pit::Entry> pfEntry = m_pit->Find (interest->GetPitForwardingName ()); //first record with shorter or equal prefix as in content object will be found
+	Ptr<pit::Entry> pfEntry = m_pit->Find (interest->GetName ());//interest->GetPitForwardingName ()); //first record with shorter or equal prefix as in content object will be found
 	if (pfEntry == 0)
 	{
 		//NS_LOG_DEBUG ("! Entry Not Found");
@@ -147,6 +147,7 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 	if ((pfInterest->GetPitForwardingFlag () & 1) != 1) // If not Tracable
 	{
 		NS_LOG_DEBUG ("! Entry Not Tracable");
+		std::cout<<"AnchorPointForwarding::DoPitForwarding: Entry Not Tracable"<<"\n";
 		return false;
 	}
 
@@ -159,17 +160,20 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 		if (inFace == face->m_face)
 		{
 			NS_LOG_DEBUG ("Same Face " << *face->m_face);
+			std::cout<<"AnchorPointForwarding::DoPitForwarding: Same Face " << *face->m_face <<" continue.."<<"\n";
 			continue;
 		}
-		if (TrySendOutInterest (inFace, face->m_face, interest, pitEntry))
+		if (TrySendOutTracingInterest (inFace, face->m_face, interest, pitEntry))
 		{
 			NS_LOG_DEBUG ("Propagated to " << *face->m_face);
 			outFace = face->m_face;
 			propagatedCount++;
+			std::cout<<"AnchorPointForwarding::DoPitForwarding: Propagated to " << *face->m_face<< " propagatedCount: "<<propagatedCount<<" interest->GetName(): "<< interest->GetName()<<"\n";
 		}
 		else
 		{
 			NS_LOG_DEBUG ("Failed: Propagated to " << *face->m_face);
+			std::cout<<"AnchorPointForwarding::DoPitForwarding: Failed: Propagated to " << *face->m_face<<"\n";
 		}
 	}
 
@@ -468,7 +472,89 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
 }
 //20151013
 
+bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
 
+
+  if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
+    {
+
+      return false;
+    }
+
+  pitEntry->AddOutgoing (outFace);
+
+  //transmission
+  //change interest name - doubt - 20151028
+  bool successSend = outFace->SendInterest (interest);
+  if (!successSend)
+    {
+      m_dropInterests (interest, outFace);
+    }
+
+  DidSendOutInterest (inFace, outFace, interest, pitEntry);
+
+  return true;
+}
+
+
+
+bool AnchorPointForwarding::CanSendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
+
+  if (outFace == inFace)
+    {
+	  std::cout<<"AnchorPointForwarding::CanSendOutInterest - same face as incoming, don't forward"  << "\n";
+      // NS_LOG_DEBUG ("Same as incoming");
+      return false; // same face as incoming, don't forward
+    }
+
+  pit::Entry::out_iterator outgoing = pitEntry->GetOutgoing ().find (outFace);
+
+  if (outgoing != pitEntry->GetOutgoing ().end ())
+    {
+      if (!m_detectRetransmissions) {
+    	  std::cout<<"AnchorPointForwarding::CanSendOutInterest - suppress"  << "\n";
+    	  return false; // suppress
+      }
+      else if (outgoing->m_retxCount >= pitEntry->GetMaxRetxCount ())
+        {
+          // NS_LOG_DEBUG ("Already forwarded before during this retransmission cycle (" <<outgoing->m_retxCount << " >= " << pitEntry->GetMaxRetxCount () << ")");
+    	  std::cout<<"AnchorPointForwarding::CanSendOutInterest - Already forwarded before during this retransmission cycle (" <<outgoing->m_retxCount << " >= " << pitEntry->GetMaxRetxCount () << ")"<< "\n";
+          return false; // already forwarded before during this retransmission cycle
+        }
+   }
+
+  return true;
+}
+
+
+bool AnchorPointForwarding::TrySendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
+  if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
+    {
+
+      return false;
+    }
+
+  pitEntry->AddOutgoing (outFace);
+
+  //transmission
+  bool successSend = outFace->SendInterest (interest);
+  if (!successSend)
+    {
+      m_dropInterests (interest, outFace);
+    }
+
+  DidSendOutInterest (inFace, outFace, interest, pitEntry);
+
+  return true;
+}
+
+void AnchorPointForwarding::DidSendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
+  m_outInterests (interest, outFace);
+}
 
 
 

@@ -63,6 +63,18 @@ protected:
 
   void LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> interest, std::string funcName);
 
+
+
+  //for testing why tracing interest is dropped at next node on way back (while being pulled) - begins
+  virtual bool CanSendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry);
+
+  virtual bool TrySendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry);
+
+  virtual void DidSendOutInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest,Ptr<pit::Entry> pitEntry);
+  //for testing why tracing interest is dropped at next node on way back (while being pulled) - ends
+
+  virtual bool TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry);
+
 protected:
   static LogComponent g_log;
 

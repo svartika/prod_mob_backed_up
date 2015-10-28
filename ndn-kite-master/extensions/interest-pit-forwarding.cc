@@ -241,6 +241,7 @@ PitForwarding::DoPropagateInterest (Ptr<Face> inFace,
     {
       return didPitForwarding;
     }
+  std::cout<< "PitForwarding::DoPropagateInterest going to doFlooding now"<<"\n";
   bool didFlooding = DoFlooding (inFace, interest, pitEntry);      
   //std::cout << "PitForwarding::DoPropagateInterest didFlooding: "<<didFlooding <<" didPitForwarding: "<<didPitForwarding<<"\n";
   return didPitForwarding || didFlooding;

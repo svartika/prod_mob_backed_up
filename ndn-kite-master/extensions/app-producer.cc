@@ -54,6 +54,7 @@ ProducerApp::StartApplication ()
   m_face = CreateObject<ApiFace> (GetNode ());
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&ProducerApp::OnInterest, this));
+
   SendTracedInterestToAnchor ();
 
   received_tracing_interest_ctr = 0; //20151006
@@ -112,6 +113,8 @@ void
 ProducerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
   NS_LOG_FUNCTION (data->GetNamePtr ()); 
+  Time now = Simulator::Now();
+  	std::cout <<"4 ProducerApp::OnData::on_receive_interest: " <<"origInterest->GetName(): "<<origInterest->GetName() << "\n";
 }
 
 void
