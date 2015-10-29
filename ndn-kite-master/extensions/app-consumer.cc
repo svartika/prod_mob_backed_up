@@ -106,6 +106,9 @@ void
 ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
 	std::cout<<"ConsumerApp::OnData "<<"\n";
+	return;
+
+	std::cout<<"ConsumerApp::OnData "<<"\n";
 	NS_LOG_INFO ("vartika1: ConsumerApp::OnData ");
 
 	/*vartika to write log here to track time when server (consumer) gets
