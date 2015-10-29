@@ -6,6 +6,8 @@
 #include <boost/foreach.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/lambda/bind.hpp>
+
+#include "ndn-api-face-anchor-manip.h"
 namespace ll = boost::lambda;
 
 namespace ns3 {
@@ -169,6 +171,7 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 			outFace = face->m_face;
 			propagatedCount++;
 			std::cout<<"AnchorPointForwarding::DoPitForwarding: Propagated to " << *face->m_face<< " propagatedCount: "<<propagatedCount<<" interest->GetName(): "<< interest->GetName()<<"\n";
+
 		}
 		else
 		{
@@ -268,6 +271,7 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	std::cout<<"newName: "<<newName<<"\n";
 	NS_LOG_INFO ("vartika1: newName: " << newName);
 	Ptr<ndn::Name> newInterestName =   Create<ndn::Name>(newName);
+
 
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
 	interest->SetNonce            (orgInterest->GetNonce());
@@ -474,9 +478,11 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
 
 bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
 {
+	//doubt - 20151029
+	//because the interest is being rejected at the application level in consumer.
+	//i am making a hack here to reply with a data here in case it is api face and in case prefix here is consumer
 
-
-  if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
+	if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
     {
 
       return false;
@@ -484,8 +490,56 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
 
   pitEntry->AddOutgoing (outFace);
 
+
+  //change interest name - 20151028
+  std::string myString = "blah";
+  std::stringstream buffer;
+  outFace->Print(buffer);
+  myString = buffer.str();
+  //std::cout<<"myString: "<<myString<<" *outFace: "<<*outFace<<"\n";
+  if(myString.find("ApiFace")!=std::string::npos) { //this means that it is on application face ..like dev=ApiFace(5)
+	  std::cout<<"found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
+	 // doubt -  //also is this consumer prefix????? how to find out
+	  //answer - an interest on a local face is always going to be for the prefix /consumer
+
+	  if(interest->GetName().toUri().find("/anchor1") !=std::string::npos ) {
+
+		  Ptr<ndn::Data> data = Create<ndn::Data> (Create<Packet> (1024));
+		  data->SetName (Create<ndn::NameComponents> (interest->GetName ()));
+		  //Simulator::ScheduleNow (&ApiFace::Put, inFace, data);
+		  inFace->SendData(data);
+
+		  // interest to consumer and on local face (on application intererface)
+		  //  tracing - should change interest name in order to be consumed - this is a temporary hack -  doubt - 20151029
+
+			Ptr<ndn::Interest> newInterest = Create<ndn::Interest> ();
+			newInterest->SetNonce            (interest->GetNonce());
+			newInterest->SetName             (Create<ndn::Name>("/consumer"));
+			newInterest->SetInterestLifetime (interest->GetInterestLifetime());
+			newInterest->SetPitForwardingFlag (interest->GetPitForwardingFlag ());
+			if(interest->GetPitForwardingNamePtr () != 0) {
+				newInterest->SetPitForwardingName (interest->GetPitForwardingName ());
+			}
+
+			/*Ptr<ApiFaceAnchorManip> outface1 = outFace;
+			bool successSend = ((Ptr<ApiFaceAnchorManip> )outFace)->SendInterest (newInterest);*/
+
+		   //transmission
+			bool successSend = outFace->SendInterest (newInterest);
+			if (!successSend)
+			{
+				m_dropInterests (interest, outFace);
+			}
+			std::cout<<"sent out newInterest->GetName(): "<<newInterest->GetName().toUri()<< " returned: "<< successSend<<"\n";
+			DidSendOutInterest (inFace, outFace, interest, pitEntry);
+
+			return true;
+
+
+	  }
+  }
+
   //transmission
-  //change interest name - doubt - 20151028
   bool successSend = outFace->SendInterest (interest);
   if (!successSend)
     {

@@ -12,7 +12,7 @@ NS_GLOBAL_VALUE="RngRun=4" \
 --kite=1 --speed=2 --size=1 --grid=4 --stop=200" --vis
 
 
-NS_LOG=ndn.fw.PitForwarding.AnchorPointForwarding:ndn.ApiFace \
+NS_LOG=ndn.fw.PitForwarding.AnchorPointForwarding \
 NS_GLOBAL_VALUE="RngRun=4" \
 ./waf --run "scheme2 \
 --ns3::ndn::fw::PitForwarding::Pull=true \
