@@ -75,6 +75,9 @@ protected:
 
   virtual bool TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry);
 
+  virtual void OnData (Ptr<Face> face, Ptr<Data> data);
+
+
 protected:
   static LogComponent g_log;
 

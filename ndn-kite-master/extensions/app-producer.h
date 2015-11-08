@@ -56,6 +56,7 @@ private:
   double m_requestPeriod;
 
   //vartika 20150929
+  uint32_t m_seq;
   int traced_interest_ctr;
   double traced_interst_size;
   int received_tracing_interest_ctr; // 20151006

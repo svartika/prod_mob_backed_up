@@ -54,7 +54,7 @@ ProducerApp::StartApplication ()
   m_face = CreateObject<ApiFace> (GetNode ());
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&ProducerApp::OnInterest, this));
-
+  m_seq=0;
   SendTracedInterestToAnchor ();
 
   received_tracing_interest_ctr = 0; //20151006
@@ -93,7 +93,7 @@ ProducerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest>
 
 	Ptr<ndn::Data> data = Create<ndn::Data> (Create<Packet> (1024));
 	data->SetName (Create<ndn::NameComponents> (interest->GetName ()));
-
+	std::cout <<"ProducerApp::OnInterest: interest->GetName (): " << interest->GetName ()<<"\n";
 	/*vartika to write log here to track time when mobile puts data for
 	server (consumer)   20150923*/
 	now = Simulator::Now();
@@ -132,11 +132,23 @@ ProducerApp::SendTracedInterestToAnchor ()
   UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
   std::string interestName = m_anchorPrefix;// + m_mobilePrefix; //maybe remove the mobile prefix from traced interest (only use from forwarding name)
   Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
+
+
   interest->SetNonce            (rand.GetValue ());
   interest->SetName             (name);
   interest->SetInterestLifetime (Seconds(2.0));//Seconds (m_requestPeriod));
   interest->SetPitForwardingFlag (1); // Tracable
-  interest->SetPitForwardingName (m_mobilePrefix);
+
+  std::string seq = "/%0";
+  //std::cout << "1 ProducerApp::SendTracedInterestToAnchor: old seq: " << seq<<"\n";
+  std::stringstream ss;
+  ss<<((int)m_seq%3)+1;
+  seq.append(ss.str());
+
+  //std::cout << "1 ProducerApp::SendTracedInterestToAnchor: new seq: " << seq<<"\n";
+
+  interest->SetPitForwardingName (m_mobilePrefix+seq);
+  m_seq++;
 
   /*track time when mobile says i have data 20150923*/
   Time now = Simulator::Now();

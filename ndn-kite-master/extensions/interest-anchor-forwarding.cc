@@ -132,7 +132,9 @@ bool AnchorPointForwarding::DoPitForwarding (Ptr<Face> inFace, Ptr<const Interes
 	Ptr<pit::Entry> pfEntry = m_pit->Find (interest->GetName ());//interest->GetPitForwardingName ()); //first record with shorter or equal prefix as in content object will be found
 	if (pfEntry == 0)
 	{
-		//NS_LOG_DEBUG ("! Entry Not Found");
+		NS_LOG_DEBUG ("! Entry Not Found");
+		std::cout<<"AnchorPointForwarding::DoPitForwarding at: "<<this<<" vartika1 (pfEntry==0)"<<"\n";
+		return false;
 
 		//doubt -- right now I am putting step (4) here but i will move this to doFlooding ..not Fib entry found after adding routes in to that -- 20151020 --vartika
 		//(4) begins
@@ -195,15 +197,22 @@ AnchorPointForwarding::DoFlooding (Ptr<Face> inFace,
   int propagatedCount = 0;
   // If No FIB entry or Only default entry, do not forward
   if ((! pitEntry->GetFibEntry ()) || (pitEntry->GetFibEntry ()->GetPrefix ().toUri () == "/"))
-    {
+  {
+	  /*std::cout<<"AnchorPointForwarding::DoFlooding says No FIB entry"<<"\n";
+	  NS_LOG_DEBUG ("! No FIB entry");
+	  return 0;*/
+
+	  //doubt -- right now I am putting step (4) here but i will move this to doFlooding ..not Fib entry found after adding routes in to that -- 20151020 --vartika
+	  //(4) begins
 	  std::cout<<"AnchorPointForwarding::DoFlooding says No FIB entry"<<"\n";
-      NS_LOG_DEBUG ("! No FIB entry");
-      return 0;
-    }
+	  if(RedirectInterestToAnchor(inFace, interest, pitEntry)) return true;
+	  else return false;
+	  //(4) ends
+  }
 
   BOOST_FOREACH (const fib::FaceMetric &metricFace, pitEntry->GetFibEntry ()->m_faces.get<fib::i_metric> ())
-    {
-      //NS_LOG_DEBUG ("Trying " << boost::cref(metricFace));
+  {
+	  //NS_LOG_DEBUG ("Trying " << boost::cref(metricFace));
       if (metricFace.GetStatus () == fib::FaceMetric::NDN_FIB_RED) // all non-read faces are in the front of the list
         break;
 
@@ -251,23 +260,24 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	Ptr<ndn::Name> interestName = Create<ndn::Name> (name->toUri ());
 
 	std::string seqPrefix = name->getPostfix (1, 0).toUri ();
-	//std::cout<<"seqPrefix: " << seqPrefix;
+	std::cout<<"seqPrefix: " << seqPrefix;
 	//NS_LOG_INFO ("vartika1: seqPrefix: " << seqPrefix);
 	if(seqPrefix.compare("/")==0) return false;
 
 	std::string anchorPrefix = name->getPostfix (1, 1).toUri ();
-	//std::cout<<"anchorPrefix: " << anchorPrefix;
+	std::cout<<"anchorPrefix: " << anchorPrefix;
 	//NS_LOG_INFO ("vartika1: anchorPrefix: " << anchorPrefix);
 	if(anchorPrefix.compare("/")==0 ) return false;
-	if(anchorPrefix.compare("anchor1")==0 ) return false;
+	if(anchorPrefix.compare("/anchor1")!=0 ) return false;
 
 	std::string producerPrefix = name->getPrefix (2,0).toUri ();
-	//std::cout<<"producerPrefix: " << producerPrefix;
+	std::cout<<"producerPrefix: " << producerPrefix;
 	//NS_LOG_INFO ("vartika1: producerPrefix: " << producerPrefix);
 	if(producerPrefix.compare("/")==0) return false;
 
 	//change interest name from /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14
-	std::string newName  = anchorPrefix+producerPrefix+seqPrefix;
+	std::string newName  = anchorPrefix;
+	std::string forwardingName  = producerPrefix+seqPrefix;
 	std::cout<<"newName: "<<newName<<"\n";
 	NS_LOG_INFO ("vartika1: newName: " << newName);
 	Ptr<ndn::Name> newInterestName =   Create<ndn::Name>(newName);
@@ -277,10 +287,10 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	interest->SetNonce            (orgInterest->GetNonce());
 	interest->SetName             (newInterestName);
 	interest->SetInterestLifetime (orgInterest->GetInterestLifetime());
-	interest->SetPitForwardingFlag (orgInterest->GetPitForwardingFlag ());
-	if(orgInterest->GetPitForwardingNamePtr () != 0) {
-		interest->SetPitForwardingName (orgInterest->GetPitForwardingName ());
-	}
+	interest->SetPitForwardingFlag (2); //orgInterest->GetPitForwardingFlag ());
+	//if(orgInterest->GetPitForwardingNamePtr () != 0) {
+		interest->SetPitForwardingName (forwardingName) ; //orgInterest->GetPitForwardingName ());
+	//}
 	//create new interest with new name ( /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14)
 
 	std::cout<<"AnchorPointForwarding::RedirectInterestToAnchor at: " << this <<" interest->GetName(): "<<interest->GetName()<<"\n";
@@ -498,7 +508,7 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
   myString = buffer.str();
   //std::cout<<"myString: "<<myString<<" *outFace: "<<*outFace<<"\n";
   if(myString.find("ApiFace")!=std::string::npos) { //this means that it is on application face ..like dev=ApiFace(5)
-	  std::cout<<"found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
+	  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
 	 // doubt -  //also is this consumer prefix????? how to find out
 	  //answer - an interest on a local face is always going to be for the prefix /consumer
 
@@ -508,21 +518,22 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
 		  data->SetName (Create<ndn::NameComponents> (interest->GetName ()));
 		  //Simulator::ScheduleNow (&ApiFace::Put, inFace, data);
 		  inFace->SendData(data);
-
+		  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: *inFace: "<< *inFace << "interest->GetName()" << interest->GetName().toUri()<<"\n";
+/*
 		  // interest to consumer and on local face (on application intererface)
 		  //  tracing - should change interest name in order to be consumed - this is a temporary hack -  doubt - 20151029
 
 			Ptr<ndn::Interest> newInterest = Create<ndn::Interest> ();
 			newInterest->SetNonce            (interest->GetNonce());
-			newInterest->SetName             (Create<ndn::Name>("/consumer"));
+			newInterest->SetName             (Create<ndn::Name>("/producer/file"));
 			newInterest->SetInterestLifetime (interest->GetInterestLifetime());
 			newInterest->SetPitForwardingFlag (interest->GetPitForwardingFlag ());
 			if(interest->GetPitForwardingNamePtr () != 0) {
 				newInterest->SetPitForwardingName (interest->GetPitForwardingName ());
 			}
 
-			/*Ptr<ApiFaceAnchorManip> outface1 = outFace;
-			bool successSend = ((Ptr<ApiFaceAnchorManip> )outFace)->SendInterest (newInterest);*/
+			Ptr<ApiFaceAnchorManip> outface1 = outFace;
+			bool successSend = ((Ptr<ApiFaceAnchorManip> )outFace)->SendInterest (newInterest);
 
 		   //transmission
 			bool successSend = outFace->SendInterest (newInterest);
@@ -533,7 +544,7 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
 			std::cout<<"sent out newInterest->GetName(): "<<newInterest->GetName().toUri()<< " returned: "<< successSend<<"\n";
 			DidSendOutInterest (inFace, outFace, interest, pitEntry);
 
-			return true;
+			return true;*/
 
 
 	  }
@@ -547,6 +558,8 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
     }
 
   DidSendOutInterest (inFace, outFace, interest, pitEntry);
+
+  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: DidSendOutInterest(): return true "<<"\n";
 
   return true;
 }
@@ -610,7 +623,67 @@ void AnchorPointForwarding::DidSendOutInterest (Ptr<Face> inFace, Ptr<Face> outF
   m_outInterests (interest, outFace);
 }
 
+void AnchorPointForwarding::OnData (Ptr<Face> inFace, Ptr<Data> data)
+{
+	NS_LOG_FUNCTION (inFace << data->GetName ());
 
+	std::cout<<"\nAnchorPointForwarding::OnData - *inFace: " << *inFace << " data->GetName(): " <<data->GetName ()<< " *data: "<< *data<<"\n";
+
+	m_inData (data, inFace);
+
+	// Lookup PIT entry
+	Ptr<pit::Entry> pitEntry = m_pit->Lookup (*data);
+	if (pitEntry == 0) {
+		//to do processing here....look for pf name of the data and find it in pit
+		Ptr<pit::Entry> pitEntry = m_pit->Lookup (*data);
+	}
+	if (pitEntry == 0)
+	{
+		bool cached = false;
+
+		if (m_cacheUnsolicitedData || (m_cacheUnsolicitedDataFromApps && (inFace->GetFlags () | Face::APPLICATION)))
+		{
+			std::cout<<"AnchorPointForwarding::OnData - m_cacheUnsolicitedData: " << m_cacheUnsolicitedData << " m_cacheUnsolicitedDataFromApps : " << m_cacheUnsolicitedDataFromApps  << "\n";
+
+			// Optimistically add or update entry in the content store
+			cached = m_contentStore->Add (data);
+		}
+		else
+		{
+			std::cout<<"AnchorPointForwarding::OnData - drop duplicated or not requested data packet"<< "\n";
+
+			// Drop data packet if PIT entry is not found
+			// (unsolicited data packets should not "poison" content store)
+
+			//drop dulicated or not requested data packet
+			m_dropData (data, inFace);
+		}
+
+		DidReceiveUnsolicitedData (inFace, data, cached);
+		return;
+	}
+	else
+	{
+		std::cout<<"AnchorPointForwarding::OnData ... pitEntry != 0 ... going to do DidReceiveSolicitedData"<< "\n";
+
+		bool cached = m_contentStore->Add (data);
+		DidReceiveSolicitedData (inFace, data, cached);
+	}
+
+	while (pitEntry != 0)
+	{
+		std::cout<<"AnchorPointForwarding::OnData ... while (pitEntry != 0): 1. Do data plane performance measurements: 2. Actually satisfy pending interest: 3. Lookup another PIT entry"<< "\n";
+
+		// Do data plane performance measurements
+		WillSatisfyPendingInterest (inFace, pitEntry);
+
+		// Actually satisfy pending interest
+		SatisfyPendingInterest (inFace, data, pitEntry);
+
+		// Lookup another PIT entry
+		pitEntry = m_pit->Lookup (*data);
+	}
+}
 
 
 } // namespace fw

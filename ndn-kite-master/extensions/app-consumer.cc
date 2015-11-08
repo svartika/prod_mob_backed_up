@@ -153,10 +153,10 @@ ConsumerApp::SendInterestToProducer (int seq)
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
 	UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
 
-	Ptr<ndn::Name> name = Create<ndn::Name> (m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
-	//name->append("anchor"); //keyword  commented for now - doubt
-	//name->append(m_anchorPrefix);  //commented for now - doubt
-	// name->appendNumber (seq); // commented for now - doubt
+	Ptr<ndn::Name> name = Create<ndn::Name> (m_mobilePrefix); // m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
+	name->append("anchor"); //keyword  commented for now - doubt
+	name->append("anchor1");//m_anchorPrefix);  //commented for now - doubt
+	name->appendNumber (seq); // commented for now - doubt
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
@@ -164,8 +164,8 @@ ConsumerApp::SendInterestToProducer (int seq)
 
 	//vartika has a doubt here - 20151019
 	//i think this will always fail ..PIT will be only present from producer to anchor not in this path!
-	interest->SetPitForwardingFlag (2); // TraceOnly
-	interest->SetPitForwardingName (m_mobilePrefix);
+	//interest->SetPitForwardingFlag (2); // TraceOnly
+	//interest->SetPitForwardingName (m_mobilePrefix);
 
 	/*track time when server (consumer) sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
