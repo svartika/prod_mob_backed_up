@@ -55,7 +55,7 @@ ProducerApp::StartApplication ()
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&ProducerApp::OnInterest, this));
   m_seq=0;
-  int credit = 8;
+  int credit = 10;
   for (int i=0; i < credit; i++)
   {
 	  SendTracedInterestToAnchor ();

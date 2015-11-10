@@ -197,10 +197,12 @@ ConsumerApp::SendInterestToProducer (int seq)
 	Log::write_to_tracing_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_sent_tracing.txt");
 	oss1.flush();
 
-
-	Simulator::Schedule (Seconds (0.3), &ApiFace::ExpressInterest, m_face, interest,
+	Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
+			 MakeCallback (&ConsumerApp::OnData, this),
+			 MakeCallback (&ConsumerApp::OnTimeout, this));
+/*	Simulator::Schedule (Seconds (0.3), &ApiFace::ExpressInterest, m_face, interest,
 					 MakeCallback (&ConsumerApp::OnData, this),
-					 MakeCallback (&ConsumerApp::OnTimeout, this));
+					 MakeCallback (&ConsumerApp::OnTimeout, this));*/
 
 }
 
