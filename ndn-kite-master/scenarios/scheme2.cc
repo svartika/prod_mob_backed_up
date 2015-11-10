@@ -76,7 +76,7 @@ main (int argc, char *argv[])
 	ndnHelper.SetDefaultRoutes (true); // there must be an entry in FIB for an Interest, otherwise the Interest will be dropped
 
 	std::string consumerPrefix = "/consumer1";
-	std::string anchorPrefix = "/anchor1";
+	std::string anchorPrefix = "/anchor1/producer/file";
 	Ptr<Node> consNode = grid.GetNode (0, 0);
 
 	//set route to consumer - begins
@@ -122,6 +122,10 @@ main (int argc, char *argv[])
 		}
 	}
 	//set route to anchor - ends
+	ndn::StackHelper::AddRoute (consNode, "/producer/file", grid.GetNode (1,0), 1);
+	//set route to old location of producer - begins
+
+	//set route to old location of producer - ends
 
 	ndn::AppHelper anchorAppHelper ("AnchorApp");
 	ApplicationContainer anchorApp = anchorAppHelper.Install (anchorNode);
@@ -129,11 +133,11 @@ main (int argc, char *argv[])
 
 	ndn::AppHelper producerAppHelper ("ProducerApp");
 	ApplicationContainer producerApp = producerAppHelper.Install (mobileNodes);
-	producerApp.Start (Seconds (2.0));
+	producerApp.Start (Seconds (1.0));
 
 	ndn::AppHelper consumerAppHelper ("ConsumerApp");
 	ApplicationContainer consumerApp= consumerAppHelper.Install (consNode);
-	consumerApp.Start (Seconds (1.0));
+	consumerApp.Start (Seconds (1.5));
 
 	std::cout<<"vartika says..is ok?";
 	Simulator::Stop (Seconds (stopTime));

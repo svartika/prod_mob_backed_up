@@ -106,7 +106,18 @@ void
 ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
 	std::cout<<"ConsumerApp::OnData "<<"\n";
+	std::ostringstream oss1;
+	oss1<< "Data packets Received: " << data_ctr++;
+	std::string tsLog1(oss1.str());
+	Log::write_to_on_data_tracker(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt");
+	oss1.flush();
+
+	SendInterestToProducer (m_seq++);
+
 	return;
+
+
+
 
 	std::cout<<"ConsumerApp::OnData "<<"\n";
 	NS_LOG_INFO ("vartika1: ConsumerApp::OnData ");
@@ -122,12 +133,10 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 	Log::write_ts_to_log_file(tsLog);
 	oss.flush();
 
-	//20151001
-	std::ostringstream oss1;
-	oss1<< "Data packets Received: " << data_ctr++;
-	std::string tsLog1(oss1.str());
-	Log::write_to_on_data_tracker(tsLog1, "/home/vartika-kite/kite_log_data_2.txt");
-	oss1.flush();
+
+
+
+
 
 	NS_LOG_FUNCTION (data->GetNamePtr ());
 	SendInterestToProducer (m_seq);
@@ -156,6 +165,7 @@ ConsumerApp::SendInterestToProducer (int seq)
 	Ptr<ndn::Name> name = Create<ndn::Name> (m_mobilePrefix); // m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
 	name->append("anchor"); //keyword  commented for now - doubt
 	name->append("anchor1");//m_anchorPrefix);  //commented for now - doubt
+	//name->append(m_anchorPrefix);
 	name->appendNumber (seq); // commented for now - doubt
 
 	interest->SetNonce            (rand.GetValue ());
@@ -184,11 +194,11 @@ ConsumerApp::SendInterestToProducer (int seq)
 			"perPacketSize: "<< perPacketSize;
 
 	std::string tsLog1(oss1.str());
-	Log::write_to_tracing_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/kite_log_tracing.txt");
+	Log::write_to_tracing_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_sent_tracing.txt");
 	oss1.flush();
 
 
-	Simulator::Schedule (Seconds (0), &ApiFace::ExpressInterest, m_face, interest,
+	Simulator::Schedule (Seconds (0.3), &ApiFace::ExpressInterest, m_face, interest,
 					 MakeCallback (&ConsumerApp::OnData, this),
 					 MakeCallback (&ConsumerApp::OnTimeout, this));
 

@@ -55,7 +55,11 @@ ProducerApp::StartApplication ()
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&ProducerApp::OnInterest, this));
   m_seq=0;
-  SendTracedInterestToAnchor ();
+  int credit = 8;
+  for (int i=0; i < credit; i++)
+  {
+	  SendTracedInterestToAnchor ();
+  }
 
   received_tracing_interest_ctr = 0; //20151006
 }
@@ -86,7 +90,7 @@ ProducerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest>
 	std::ostringstream oss2;
 	oss2<< "on interest/ put data" << received_tracing_interest_ctr++<<" , ";
 	std::string tsLog2(oss2.str());
-	Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/received_tracing_interest_ctr.txt");
+	Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/ndn-kite-master/results/res/received_tracing_interest_ctr.txt");
 	oss2.flush();
 
 	NS_LOG_FUNCTION (interest);
@@ -120,7 +124,7 @@ ProducerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ProducerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
-	return;
+	//return;
   SendTracedInterestToAnchor ();
   return;
 }
@@ -128,52 +132,59 @@ ProducerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 void
 ProducerApp::SendTracedInterestToAnchor ()
 {
-  Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
-  UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
-  std::string interestName = m_anchorPrefix;// + m_mobilePrefix; //maybe remove the mobile prefix from traced interest (only use from forwarding name)
-  Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
+
+	std::string seq = "/%0";
+	//std::cout << "1 ProducerApp::SendTracedInterestToAnchor: old seq: " << seq<<"\n";
+	std::stringstream ss;
+	//ss<<((int)m_seq%3)+1;
+	ss<<(m_seq+1);
+	seq.append(ss.str());
 
 
-  interest->SetNonce            (rand.GetValue ());
-  interest->SetName             (name);
-  interest->SetInterestLifetime (Seconds(2.0));//Seconds (m_requestPeriod));
-  interest->SetPitForwardingFlag (1); // Tracable
+	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
+	UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
+	std::string interestName = m_anchorPrefix + m_mobilePrefix + seq; //maybe remove the mobile prefix from traced interest (only use from forwarding name)
+	Ptr<ndn::Name> name = Create<ndn::Name> (interestName);
 
-  std::string seq = "/%0";
-  //std::cout << "1 ProducerApp::SendTracedInterestToAnchor: old seq: " << seq<<"\n";
-  std::stringstream ss;
-  ss<<((int)m_seq%3)+1;
-  seq.append(ss.str());
 
-  //std::cout << "1 ProducerApp::SendTracedInterestToAnchor: new seq: " << seq<<"\n";
+	interest->SetNonce            (rand.GetValue ());
+	interest->SetName             (name);
+	interest->SetInterestLifetime (Seconds(4.0)); //Seconds (m_requestPeriod));
+	interest->SetPitForwardingFlag (1); // Tracable
 
-  interest->SetPitForwardingName (m_mobilePrefix+seq);
-  m_seq++;
 
-  /*track time when mobile says i have data 20150923*/
-  Time now = Simulator::Now();
-  std::cout << "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<"\n";
-  std::ostringstream oss;
-  oss<< "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<" , ";
-  std::string tsLog(oss.str());
-  Log::write_ts_to_log_file(tsLog);
-  oss.flush();
 
-  float perPacketSize = interest->GetPayload()->GetSerializedSize();
-  traced_interst_size += interest->GetPayload()->GetSerializedSize();
-  //to ask jaebeom traced_interst_size += interest->GetWire()->GetSerializedSize(); // try this also // this does not generate logs...some error maybe..pbb;y needs to be created
-  std::ostringstream oss1;
-  oss1<< "Traced Interest (Interest for prefix update (this we need)): " << traced_interest_ctr++<<" , "
-		  "Traced Interest size: "<< traced_interst_size << ", "
-		  "perPacketSize: "<< perPacketSize;
-  std::string tsLog1(oss1.str());
-  Log::write_to_traced_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/kite_log_traced.txt");
-  oss.flush();
+	//std::cout << "1 ProducerApp::SendTracedInterestToAnchor: new seq: " << seq<<"\n";
 
-  Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
-                     MakeCallback (&ProducerApp::OnData, this),
-                     MakeCallback (&ProducerApp::OnTimeout, this));
+	interest->SetPitForwardingName (m_mobilePrefix+seq);
+	m_seq++;
 
+	/*track time when mobile says i have data 20150923*/
+	Time now = Simulator::Now();
+	std::cout << "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<"\n";
+	std::ostringstream oss;
+	oss<< "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<" , ";
+	std::string tsLog(oss.str());
+	Log::write_ts_to_log_file(tsLog);
+	oss.flush();
+
+	float perPacketSize = interest->GetPayload()->GetSerializedSize();
+	traced_interst_size += interest->GetPayload()->GetSerializedSize();
+	//to ask jaebeom traced_interst_size += interest->GetWire()->GetSerializedSize(); // try this also // this does not generate logs...some error maybe..pbb;y needs to be created
+	std::ostringstream oss1;
+	oss1<< "Traced Interest (Interest for prefix update (this we need)): " << traced_interest_ctr++<<" , "
+			"Traced Interest size: "<< traced_interst_size << ", "
+			"perPacketSize: "<< perPacketSize;
+	std::string tsLog1(oss1.str());
+	Log::write_to_traced_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/kite_log_traced.txt");
+	oss.flush();
+
+	Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
+			MakeCallback (&ProducerApp::OnData, this),
+			MakeCallback (&ProducerApp::OnTimeout, this));
+	/*Simulator::Schedule (Seconds (1.0),&ApiFace::ExpressInterest, m_face, interest,
+			MakeCallback (&ProducerApp::OnData, this),
+			MakeCallback (&ProducerApp::OnTimeout, this));*/
 
 }
 

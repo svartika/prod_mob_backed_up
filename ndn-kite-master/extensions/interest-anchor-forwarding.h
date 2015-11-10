@@ -4,6 +4,7 @@
 
 #include "interest-pit-forwarding.h"
 #include "ns3/log.h"
+#include "log.h"
 
 namespace ns3 {
 namespace ndn {
@@ -77,6 +78,10 @@ protected:
 
   virtual void OnData (Ptr<Face> face, Ptr<Data> data);
 
+  Ptr<ndn::Name> ReCreateOriginalName( Ptr<Face> inFace, Name dataName);
+
+  int received_tracing_interest_ctr;
+  void ProcessTracingInterestForProducer(Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest);
 
 protected:
   static LogComponent g_log;

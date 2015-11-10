@@ -8,6 +8,8 @@
 #include <boost/lambda/bind.hpp>
 
 #include "ndn-api-face-anchor-manip.h"
+#include <sstream>
+
 namespace ll = boost::lambda;
 
 namespace ns3 {
@@ -40,7 +42,8 @@ TypeId AnchorPointForwarding::GetTypeId ()
 
 AnchorPointForwarding::AnchorPointForwarding ()
 {
-  // m_pft = Create<Pft> ();
+	// m_pft = Create<Pft> ();
+	received_tracing_interest_ctr = 0;
 }
 
 int AnchorPointForwarding::Pull (Ptr<Face> inFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
@@ -276,7 +279,7 @@ bool AnchorPointForwarding::RedirectInterestToAnchor(Ptr<Face> inFace, Ptr<const
 	if(producerPrefix.compare("/")==0) return false;
 
 	//change interest name from /producer/file/anchor/anchor1/%14 to /anchor/anchor1/producer/file/%14
-	std::string newName  = anchorPrefix;
+	std::string newName  = anchorPrefix + producerPrefix + seqPrefix;
 	std::string forwardingName  = producerPrefix+seqPrefix;
 	std::cout<<"newName: "<<newName<<"\n";
 	NS_LOG_INFO ("vartika1: newName: " << newName);
@@ -358,31 +361,31 @@ void AnchorPointForwarding::LoopOverPit(Ptr<Face> inFace, Ptr<const Interest> in
   //loop through pit table ends
 
   //loop two begins
-  std::cout<<funcName<<"::LoopOverPit:  m_pit: "<< m_pit <<" m_pit->Begin(): "<<m_pit->Begin()<<"\n";
-  std::cout<<funcName<<"::LoopOverPit: m_pit->GetSize ()" << m_pit->GetSize () <<"\n";
+  std::cout<<funcName<<"::LoopOverPit:  m_pit: "<< m_pit <<" m_pit->Begin(): "<<m_pit->Begin()<<" \t";
+  std::cout<<" m_pit->GetSize ()" << m_pit->GetSize () <<"\n";
   if(m_pit->GetMaxPitEntryLifetime ().GetMilliSeconds()<1000)m_pit->SetMaxPitEntryLifetime(Seconds(4.0));
   for (Ptr<pit::Entry> pfEntry = m_pit->Begin(); pfEntry != m_pit->End(); pfEntry = m_pit->Next(pfEntry))
   {
 	Ptr<const Interest> pfInterest = pfEntry->GetInterest ();
-	std::cout<<funcName<<"::LoopOverPit:  pfInterest->GetName(): "<< pfInterest->GetName() <<"\n";
+	std::cout<<funcName<<"::LoopOverPit:  pfInterest->GetName(): "<< pfInterest->GetName() <<" \t";
 	Ptr<Face> outFace = 0;
 	pit::Entry::in_iterator face = pfEntry->GetIncoming ().begin ();
-	std::cout<<funcName<<"::LoopOverPit: face->m_face "<<face->m_face<<"\n";
+	std::cout<<" face->m_face "<<face->m_face<<"  \t";
 	for (; face != pfEntry->GetIncoming ().end (); face++)
 	{
 		int num=0;
-		std::cout<<funcName<<"::LoopOverPit: pfEntry->GetIncoming(): "<<face->m_face<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
-		std::cout<<funcName<<"::LoopOverPit: inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
+		std::cout<<" pfEntry->GetIncoming(): "<<face->m_face<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\t";
+		//std::cout<<funcName<<"::LoopOverPit: inFace value in for loop: "<<" inFace: "<<inFace<< " *inFace: "<<*inFace<<"\n";
 		if (inFace != face->m_face)
 		{
 			outFace = face->m_face;
-			std::cout<<funcName<<"::LoopOverPit: num: "<<num<<"\n";
+			std::cout<<" num: "<<num<<"\n";
 			break;
 		}
 	}
 	if (outFace == 0) // pulled by itself
 	{
-		std::cout<<funcName<<"::LoopOverPit: outFace is zero"<<"\n";
+		std::cout<<" outFace is zero"<<"\n";
 	}
   }
   //loop two ends
@@ -436,8 +439,10 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
   std::cout<<"AnchorPointForwarding::OnInterest at: " << this <<" isDuplicated: " <<isDuplicated << "\n";
 
   Ptr<Data> contentObject;
+
+
   contentObject = m_contentStore->Lookup (interest);
-  if (contentObject != 0)
+  if (contentObject != 0 && (interest->GetPitForwardingFlag ()!=1) ) //don't do this if interest is traced
     {
       FwHopCountTag hopCountTag;
       if (interest->GetPayload ()->PeekPacketTag (hopCountTag))
@@ -485,41 +490,36 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
   PropagateInterest (inFace, interest, pitEntry);
 }
 //20151013
-
-bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+void AnchorPointForwarding::ProcessTracingInterestForProducer(Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest)
 {
-	//doubt - 20151029
-	//because the interest is being rejected at the application level in consumer.
-	//i am making a hack here to reply with a data here in case it is api face and in case prefix here is consumer
+	//change interest name - 20151028
+	std::string myString = "blah";
+	std::stringstream buffer;
+	outFace->Print(buffer);
+	myString = buffer.str();
 
-	if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
-    {
+	if(myString.find("ApiFace")!=std::string::npos)  //this means that it is on application face ..like dev=ApiFace(5)
+	{
+		std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
+		// doubt -  //also is this consumer prefix????? how to find out
+		//answer - an interest on a local face is always going to be for the prefix /consumer
 
-      return false;
-    }
+		if(interest->GetName().toUri().find("/anchor1") !=std::string::npos )
+		{
+			Ptr<ndn::Data> data = Create<ndn::Data> (Create<Packet> (1024));
+			data->SetName (Create<ndn::NameComponents> (interest->GetName ()));
+			//Simulator::ScheduleNow (&ApiFace::Put, inFace, data);
+			inFace->SendData(data);
+			std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: inFace->SendData(data) - details: *inFace: "<< *inFace << "interest->GetName()" << interest->GetName().toUri()<<"\n";
 
-  pitEntry->AddOutgoing (outFace);
+			std::ostringstream oss2;
+			oss2<< "on interest/ put data packet count: " << received_tracing_interest_ctr++<<" , ";
+			std::string tsLog2(oss2.str());
+			Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/ndn-kite-master/results/res/producer_process_tracing.txt");
 
+			oss2.flush();
 
-  //change interest name - 20151028
-  std::string myString = "blah";
-  std::stringstream buffer;
-  outFace->Print(buffer);
-  myString = buffer.str();
-  //std::cout<<"myString: "<<myString<<" *outFace: "<<*outFace<<"\n";
-  if(myString.find("ApiFace")!=std::string::npos) { //this means that it is on application face ..like dev=ApiFace(5)
-	  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: found match to string ApiFace ..local face  for interest->GetName().toUri(): "<<interest->GetName().toUri()<<"\n";
-	 // doubt -  //also is this consumer prefix????? how to find out
-	  //answer - an interest on a local face is always going to be for the prefix /consumer
-
-	  if(interest->GetName().toUri().find("/anchor1") !=std::string::npos ) {
-
-		  Ptr<ndn::Data> data = Create<ndn::Data> (Create<Packet> (1024));
-		  data->SetName (Create<ndn::NameComponents> (interest->GetName ()));
-		  //Simulator::ScheduleNow (&ApiFace::Put, inFace, data);
-		  inFace->SendData(data);
-		  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: *inFace: "<< *inFace << "interest->GetName()" << interest->GetName().toUri()<<"\n";
-/*
+			/*
 		  // interest to consumer and on local face (on application intererface)
 		  //  tracing - should change interest name in order to be consumed - this is a temporary hack -  doubt - 20151029
 
@@ -547,21 +547,37 @@ bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Fac
 			return true;*/
 
 
-	  }
-  }
+		}
+	}
+}
 
-  //transmission
-  bool successSend = outFace->SendInterest (interest);
-  if (!successSend)
-    {
-      m_dropInterests (interest, outFace);
-    }
+bool AnchorPointForwarding::TrySendOutTracingInterest (Ptr<Face> inFace, Ptr<Face> outFace, Ptr<const Interest> interest, Ptr<pit::Entry> pitEntry)
+{
+	if (!CanSendOutInterest (inFace, outFace, interest, pitEntry))
+	{
 
-  DidSendOutInterest (inFace, outFace, interest, pitEntry);
+		return false;
+	}
 
-  std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: DidSendOutInterest(): return true "<<"\n";
+	pitEntry->AddOutgoing (outFace);
 
-  return true;
+	//doubt - 20151029
+	//because the interest is being rejected at the application level in consumer.
+	//i am making a hack here to reply with a data here in case it is api face and in case prefix here is consumer
+	ProcessTracingInterestForProducer(inFace, outFace, interest);
+
+	//transmission
+	bool successSend = outFace->SendInterest (interest);
+	if (!successSend)
+	{
+		m_dropInterests (interest, outFace);
+	}
+
+	DidSendOutInterest (inFace, outFace, interest, pitEntry);
+
+	std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: DidSendOutInterest(): return true "<<"\n";
+
+	return true;
 }
 
 
@@ -623,6 +639,29 @@ void AnchorPointForwarding::DidSendOutInterest (Ptr<Face> inFace, Ptr<Face> outF
   m_outInterests (interest, outFace);
 }
 
+Ptr<ndn::Name> AnchorPointForwarding::ReCreateOriginalName( Ptr<Face> inFace, Name dataName)
+{
+	std::string anchorPrefix = dataName.getPrefix (1, 0).toUri ();
+	std::cout<<"anchorPrefix: " << anchorPrefix<<" ";
+	if(anchorPrefix.compare("/")!=0 && anchorPrefix.compare("/anchor1")==0  )
+	{
+		std::string producerPrefix = dataName.getPrefix (2,1).toUri ();
+		std::cout<<"producerPrefix: " << producerPrefix<<" ";
+		if(producerPrefix.compare("/")!=0)
+		{
+
+			std::string seqPrefix = dataName.getPostfix(1,0).toUri();
+			std::cout<<"seqPrefix: " << seqPrefix<<" ";
+			std::string newName  = producerPrefix +"/anchor" + anchorPrefix + seqPrefix ; //"/%01";
+			std::cout<<"newName: "<<newName<<"\n";
+			Ptr<ndn::Name> newInterestName =   Create<ndn::Name>(newName);
+			LoopOverPit(inFace, 0, "AnchorPointForwarding::DropKeywordAndLookupAgain");
+			return newInterestName;
+		}
+	}
+	return 0;
+}
+
 void AnchorPointForwarding::OnData (Ptr<Face> inFace, Ptr<Data> data)
 {
 	NS_LOG_FUNCTION (inFace << data->GetName ());
@@ -634,8 +673,16 @@ void AnchorPointForwarding::OnData (Ptr<Face> inFace, Ptr<Data> data)
 	// Lookup PIT entry
 	Ptr<pit::Entry> pitEntry = m_pit->Lookup (*data);
 	if (pitEntry == 0) {
-		//to do processing here....look for pf name of the data and find it in pit
-		Ptr<pit::Entry> pitEntry = m_pit->Lookup (*data);
+		//drop keyword anchor and look again in pit
+		//is of form -> /anchor1/producer/file/%02
+		//to make -> /producer/file/anchor/anchor1/%02
+		Ptr<ndn::Name> newInterestName = ReCreateOriginalName(inFace, data->GetName ());
+		if(newInterestName!=0)
+		{
+			data->SetName (newInterestName);
+			pitEntry = m_pit->Lookup (*data);
+		}
+
 	}
 	if (pitEntry == 0)
 	{
