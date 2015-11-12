@@ -56,7 +56,7 @@ ConsumerApp::StartApplication ()
   m_anchorPrefix = "/anchor1";
 
   m_seq = 1;
-  m_credit = 1;
+  m_credit = 20;
   for (int i=0; i < m_credit; i++)
   {
 	  SendInterestToProducer (m_seq++);
@@ -105,7 +105,7 @@ return;
 void
 ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> data)
 {
-	std::cout<<"ConsumerApp::OnData "<<"\n";
+	std::cout<<"ConsumerApp::OnData with *data: "<< *data<<"\n";
 	std::ostringstream oss1;
 	oss1<< "Data packets Received: " << data_ctr++;
 	std::string tsLog1(oss1.str());
@@ -146,27 +146,31 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 void
 ConsumerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
-	return;
-	std::cout<<"ConsumerApp::OnTimeout "<<"\n";
-	NS_LOG_INFO ("vartika1: ConsumerApp::OnTimeout ");
+	/*SendInterestToProducer (m_seq++); // no use calling this. cos interest wont timeout here....it will always be consumed
+	return;*/
 
-  Ptr<const ndn::Name> name = interest->GetNamePtr ();
-  SendInterestToProducer (name->get (-1).toNumber ());
-  return;
+	  Ptr<const ndn::Name> name = interest->GetNamePtr ();
+	  SendInterestToProducer (name->get (-1).toNumber ());
+	  return;
 }
 
 void
-ConsumerApp::SendInterestToProducer (int seq)
+ConsumerApp::SendInterestToProducer (uint32_t seq)
 {
 	NS_LOG_FUNCTION (seq);
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
 	UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());
 
-	Ptr<ndn::Name> name = Create<ndn::Name> (m_mobilePrefix); // m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
-	name->append("anchor"); //keyword  commented for now - doubt
-	name->append("anchor1");//m_anchorPrefix);  //commented for now - doubt
-	//name->append(m_anchorPrefix);
-	name->appendNumber (seq); // commented for now - doubt
+	std::string strSeq = "/%0";
+	std::stringstream ss;
+	//ss<<((int)m_seq%3)+1;
+	ss<<(seq);
+	strSeq.append(ss.str());
+
+	std::string interestName = m_mobilePrefix+ "/anchor" + m_anchorPrefix + strSeq;
+	Ptr<ndn::Name> name = Create<ndn::Name> (interestName); // m_anchorPrefix); //m_mobilePrefix); //commented for now - doubt
+
+	//name->appendNumber (seq); // commented for now - doubt
 
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
@@ -179,7 +183,7 @@ ConsumerApp::SendInterestToProducer (int seq)
 
 	/*track time when server (consumer) sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "3 ConsumerApp::SendInterestToProducer " << now.GetMilliSeconds()<<"\n";
+	std::cout << "3 ConsumerApp::SendInterestToProducer interest with " << interest->GetName() << " strSeq: " << strSeq<< " at "<<now.GetMilliSeconds()<<"\n";
 	std::ostringstream oss;
 	oss<< "3 ConsumerApp::SendInterestToProducer: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog(oss.str());

@@ -44,7 +44,7 @@ public:
   OnTimeout (Ptr<const ndn::Interest> interest);
 
   void
-  SendInterestToProducer (int seq);
+  SendInterestToProducer (uint32_t seq);
 
 private:
   uint32_t m_seq;

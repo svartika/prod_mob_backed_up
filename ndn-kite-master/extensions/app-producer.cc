@@ -55,7 +55,7 @@ ProducerApp::StartApplication ()
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&ProducerApp::OnInterest, this));
   m_seq=0;
-  int credit = 10;
+  int credit = 20;
   for (int i=0; i < credit; i++)
   {
 	  SendTracedInterestToAnchor ();
@@ -161,7 +161,7 @@ ProducerApp::SendTracedInterestToAnchor ()
 
 	/*track time when mobile says i have data 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<"\n";
+	std::cout << "1 ProducerApp::SendTracedInterestToAnchor:  " << interest->GetName() << " seq: " << seq<< " at "<<now.GetMilliSeconds()<<"\n";
 	std::ostringstream oss;
 	oss<< "1 ProducerApp::SendTracedInterestToAnchor: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog(oss.str());
