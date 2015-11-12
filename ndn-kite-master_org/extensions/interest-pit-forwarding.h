@@ -94,7 +94,6 @@ protected:
 
 protected:
   static LogComponent g_log;
-public:
   bool m_pull;
 
 // To-Do: Pit Forwarding Table for 

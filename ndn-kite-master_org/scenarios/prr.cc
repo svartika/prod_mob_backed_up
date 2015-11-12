@@ -77,8 +77,9 @@ main (int argc, char *argv[])
   mobility.Install (mobileNodes); 
 
   ndn::StackHelper ndnHelper;
-  ndnHelper.SetForwardingStrategy("ns3::ndn::fw::PitAggregateBeforeForwarding"); //PitForwarding");
+  ndnHelper.SetForwardingStrategy("ns3::ndn::fw::PitForwarding"); //PitAggregateBeforeForwarding");
   ndnHelper.SetDefaultRoutes (true); // there must be an entry in FIB for an Interest, otherwise the Interest will be dropped
+  ndnHelper.SetContentStore ("ns3::ndn::cs::Lru", "MaxSize", "1");
 
   std::string syncPrefix = "/server/upload";
   Ptr<Node> rpNode = grid.GetNode (0, 0);

@@ -39,7 +39,7 @@ MobileApp::GetTypeId ()
                   MakeStringAccessor (&MobileApp::m_mobilePrefix),
                   MakeStringChecker ())
     .AddAttribute ("RequestPeriod", "The time interval of sending request Interest.",
-                   DoubleValue (2.0),
+                   DoubleValue (4.0),
                    MakeDoubleAccessor (&MobileApp::m_requestPeriod),
                    MakeDoubleChecker<double> (0.0, 120.0))
     ;
@@ -54,7 +54,11 @@ MobileApp::StartApplication ()
   m_face = CreateObject<ApiFace> (GetNode ());
   Ptr<ndn::Name> prefix = Create<ndn::Name> (m_mobilePrefix);
   m_face->SetInterestFilter (prefix, MakeCallback (&MobileApp::OnInterest, this));
-  SendInterest ();
+  int credit = 20;
+  for (int i=0; i < credit; i++)
+  {
+          SendInterest ();
+  }
 
   received_tracing_interest_ctr = 0; //20151006
 }
@@ -83,7 +87,7 @@ MobileApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	std::ostringstream oss2;
 	oss2<< "on interest/ put data" << received_tracing_interest_ctr++<<" , ";
 	std::string tsLog2(oss2.str());
-	Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/received_tracing_interest_ctr.txt");
+	Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/ndn-kite-master_org/results/res/producer_process_tracing.txt");
 	oss2.flush();
 
 	NS_LOG_FUNCTION (interest);
@@ -153,9 +157,9 @@ MobileApp::SendInterest ()
   	Log::write_to_traced_interest_tracker_node_n(tsLog1, "/home/vartika-kite/kite_log_traced_1.txt");
   	oss.flush();
 
-  Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
+  Simulator::ScheduleNow ( &ApiFace::ExpressInterest, m_face, interest,
                      MakeCallback (&MobileApp::OnData, this),
-                     MakeCallback (&MobileApp::OnTimeout, this));
+                     MakeCallback (&MobileApp::OnTimeout, this));//Seconds (0.3),
 
 
 }
