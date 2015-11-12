@@ -55,11 +55,11 @@ ConsumerApp::StartApplication ()
   m_mobilePrefix = "/producer/file";
   m_anchorPrefix = "/anchor1";
 
-  m_seq = 1;
+  m_seq = 0;
   m_credit = 20;
   for (int i=0; i < m_credit; i++)
   {
-	  SendInterestToProducer (m_seq++);
+	  SendInterestToProducer (m_seq);
   }
   //vartika request data - ends
 }
@@ -112,7 +112,7 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 	Log::write_to_on_data_tracker(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt");
 	oss1.flush();
 
-	SendInterestToProducer (m_seq++);
+	SendInterestToProducer (m_seq);
 
 	return;
 
@@ -163,8 +163,8 @@ ConsumerApp::SendInterestToProducer (uint32_t seq)
 
 	std::string strSeq = "/%0";
 	std::stringstream ss;
-	//ss<<((int)m_seq%3)+1;
-	ss<<(seq);
+	ss<<((int)m_seq%20)+1;
+	//ss<<(seq);
 	strSeq.append(ss.str());
 
 	std::string interestName = m_mobilePrefix+ "/anchor" + m_anchorPrefix + strSeq;
@@ -175,7 +175,7 @@ ConsumerApp::SendInterestToProducer (uint32_t seq)
 	interest->SetNonce            (rand.GetValue ());
 	interest->SetName             (name);
 	interest->SetInterestLifetime (Seconds (4.0));//( m_requestPeriod));
-
+	m_seq++;
 	//vartika has a doubt here - 20151019
 	//i think this will always fail ..PIT will be only present from producer to anchor not in this path!
 	//interest->SetPitForwardingFlag (2); // TraceOnly
@@ -201,12 +201,13 @@ ConsumerApp::SendInterestToProducer (uint32_t seq)
 	Log::write_to_tracing_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_sent_tracing.txt");
 	oss1.flush();
 
-	Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
+	/*Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
 			 MakeCallback (&ConsumerApp::OnData, this),
-			 MakeCallback (&ConsumerApp::OnTimeout, this));
-/*	Simulator::Schedule (Seconds (0.3), &ApiFace::ExpressInterest, m_face, interest,
+			 MakeCallback (&ConsumerApp::OnTimeout, this));*/
+
+	Simulator::Schedule (Seconds (0.3), &ApiFace::ExpressInterest, m_face, interest,
 					 MakeCallback (&ConsumerApp::OnData, this),
-					 MakeCallback (&ConsumerApp::OnTimeout, this));*/
+					 MakeCallback (&ConsumerApp::OnTimeout, this));
 
 }
 

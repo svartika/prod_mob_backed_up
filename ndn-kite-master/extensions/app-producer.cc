@@ -136,8 +136,8 @@ ProducerApp::SendTracedInterestToAnchor ()
 	std::string seq = "/%0";
 	//std::cout << "1 ProducerApp::SendTracedInterestToAnchor: old seq: " << seq<<"\n";
 	std::stringstream ss;
-	//ss<<((int)m_seq%3)+1;
-	ss<<(m_seq+1);
+	ss<<((int)m_seq%20)+1;
+	//ss<<(m_seq+1);
 	seq.append(ss.str());
 
 
@@ -182,7 +182,8 @@ ProducerApp::SendTracedInterestToAnchor ()
 	Simulator::ScheduleNow (&ApiFace::ExpressInterest, m_face, interest,
 			MakeCallback (&ProducerApp::OnData, this),
 			MakeCallback (&ProducerApp::OnTimeout, this));
-	/*Simulator::Schedule (Seconds (1.0),&ApiFace::ExpressInterest, m_face, interest,
+
+/*	Simulator::Schedule (Seconds (0.3),&ApiFace::ExpressInterest, m_face, interest,
 			MakeCallback (&ProducerApp::OnData, this),
 			MakeCallback (&ProducerApp::OnTimeout, this));*/
 
