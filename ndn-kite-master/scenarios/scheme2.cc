@@ -74,7 +74,7 @@ main (int argc, char *argv[])
 	ndn::StackHelper ndnHelper;
 	ndnHelper.SetForwardingStrategy("ns3::ndn::fw::AnchorPointForwarding"); //PitForwarding");
 
-	ndnHelper.SetContentStore ("ns3::ndn::cs::Lru", "MaxSize", "1");
+	ndnHelper.SetContentStore ("ns3::ndn::cs::Nocache"); //, "MaxSize", "1");
 
 
 	ndnHelper.SetDefaultRoutes (true); // there must be an entry in FIB for an Interest, otherwise the Interest will be dropped

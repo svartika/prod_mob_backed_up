@@ -3,6 +3,7 @@
 	<name>Kite-Eclipse</name>
 	<comment></comment>
 	<projects>
+		<project>ndnSim</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>

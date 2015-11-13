@@ -398,6 +398,17 @@ void AnchorPointForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest
   NS_LOG_FUNCTION (inFace << interest->GetName ());
   m_inInterests (interest, inFace);
 
+  if(interest->GetPitForwardingFlag ()==1)
+  {
+	  std::cout<<"read from file - traced\n";
+	  Log::write_traced_int_count();
+  }
+  else
+  {
+	  std::cout<<"read from file - tracing\n";
+	  Log::write_tracing_int_count();
+  }
+
   Ptr<pit::Entry> pitEntry = m_pit->Lookup (*interest);
 
   bool similarInterest = true;

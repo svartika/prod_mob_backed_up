@@ -256,6 +256,26 @@ PitForwarding::CanSendOutInterest (Ptr<Face> inFace,
   return true;
 }
 
+void PitForwarding::OnInterest (Ptr<Face> inFace, Ptr<Interest> interest)
+{
+  std::cout<<"\n\PitForwarding::OnInterest at: " << this <<" *inFace - interest->GetName (): "<<*inFace << interest->GetName ()<<"\n";
+
+  std::string interestName = interest->GetName().toUri();
+  /*if(interestName.compare("/server/upload/mobile/file")==0)  // traced interest name
+  {*/
+  if(interest->GetPitForwardingFlag ()==1)
+  {
+  	  std::cout<<"read from file - traced\n";
+  	  Log::write_traced_int_count();
+  }
+  else
+  {
+  	  std::cout<<"read from file - tracing\n";
+  	  Log::write_tracing_int_count();
+  }
+  ForwardingStrategy::OnInterest(inFace, interest);
+}
+
 } // namespace fw
 } // namespace ndn
 } // namespace ns3

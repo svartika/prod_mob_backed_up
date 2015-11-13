@@ -1,0 +1,71 @@
+vartika says..is ok?scanning topology: 17 nodes...
+scanning topology: calling graphviz layout
+scanning topology: all done.
+3 ConsumerApp::SendInterestToProducer 1000
+AnchorPointForwarding::OnInterest at: 0x88af4f8 inFace << interest->GetName (): 0xb0304250/producer/file/anchor/anchor1/%01
+AnchorPointForwarding::DoPitForwarding at: 0x88af4f8 vartika1 (pfEntry == 0)
+newName: /anchor1/producer/file/%01AnchorPointForwarding::RedirectInterestToAnchor at: 0x88af4f8interest->GetName(): /anchor1/producer/file/%01
+AnchorPointForwarding::RedirectInterestToAnchor at: 0x88af4f8 true from DoFlooding
+AnchorPointForwarding::OnInterest at: 0x88afc90 inFace << interest->GetName (): 0x88afd80/anchor1/producer/file/%01
+AnchorPointForwarding::DoPitForwarding at: 0x88afc90 vartika1 (pfEntry == 0)
+newName: /file/anchor1/producer/%01AnchorPointForwarding::RedirectInterestToAnchor at: 0x88afc90interest->GetName(): /file/anchor1/producer/%01
+AnchorPointForwarding::RedirectInterestToAnchor at: 0x88afc90 false from PitForwarding::DoFlooding
+AnchorPointForwarding::OnInterest at: 0x88b2840 inFace << interest->GetName (): 0x88b2b60/anchor1/producer/file/%01
+AnchorPointForwarding::DoPitForwarding at: 0x88b2840 vartika1 (pfEntry == 0)
+newName: /file/anchor1/producer/%01AnchorPointForwarding::RedirectInterestToAnchor at: 0x88b2840interest->GetName(): /file/anchor1/producer/%01
+AnchorPointForwarding::RedirectInterestToAnchor at: 0x88b2840 false from PitForwarding::DoFlooding
+AnchorApp::OnInterest: vartika says received interest at anchor: 0x88bc560origName: /anchor1 interest: /anchor1/producer/file/%01
+1 ProducerApp::SendTracedInterestToAnchor: 2000
+AnchorPointForwarding::OnInterest at: 0x88aeb68 inFace << interest->GetName (): 0xb0309bb0/anchor1
+DoPitForwarding Pull at: 0x88aeb68/anchor1with m_pull: 1
+AnchorPointForwarding::Pull at: 0x88aeb68interest->GetName (): /anchor1
+AnchorPointForwarding::Pull at: 0x88aeb68interest->GetName (): /anchor1 .. interest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88aeb68 pfInterest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88aeb68 pfInterest->GetPitForwardingNamePtr (): 0xb030af90
+AnchorPointForwarding::Pull at: 0x88aeb68 interest->GetPitForwardingNamePtr (): 0xb030af90
+AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): 0*inFace: dev=ApiFace(1)
+AnchorPointForwarding::Pull : face->m_face 0xb0309bb0
+pfEntry->GetIncoming() face value in for loop: 0xb0309bb0
+inFace value in for loop:  inFace: 0xb0309bb0
+do you come here?
+AnchorPointForwarding::DoPitForwarding at: 0x88aeb68 vartika1 (pfEntry == 0)
+AnchorPointForwarding::OnInterest at: 0x88b41d8 inFace << interest->GetName (): 0x88b4798/anchor1
+DoPitForwarding Pull at: 0x88b41d8/anchor1with m_pull: 1
+AnchorPointForwarding::Pull at: 0x88b41d8interest->GetName (): /anchor1
+AnchorPointForwarding::Pull at: 0x88b41d8interest->GetName (): /anchor1 .. interest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b41d8 pfInterest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b41d8 pfInterest->GetPitForwardingNamePtr (): 0xb030b720
+AnchorPointForwarding::Pull at: 0x88b41d8 interest->GetPitForwardingNamePtr (): 0xb030b720
+AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): 0*inFace: dev[7]=net(3)
+AnchorPointForwarding::Pull : face->m_face 0x88b4798
+pfEntry->GetIncoming() face value in for loop: 0x88b4798
+inFace value in for loop:  inFace: 0x88b4798
+do you come here?
+AnchorPointForwarding::DoPitForwarding at: 0x88b41d8 vartika1 (pfEntry == 0)
+AnchorPointForwarding::OnInterest at: 0x88b3528 inFace << interest->GetName (): 0x88b3968/anchor1
+DoPitForwarding Pull at: 0x88b3528/anchor1with m_pull: 1
+AnchorPointForwarding::Pull at: 0x88b3528interest->GetName (): /anchor1
+AnchorPointForwarding::Pull at: 0x88b3528interest->GetName (): /anchor1 .. interest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b3528 pfInterest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b3528 pfInterest->GetPitForwardingNamePtr (): 0xb030b8c0
+AnchorPointForwarding::Pull at: 0x88b3528 interest->GetPitForwardingNamePtr (): 0xb030b8c0
+AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): 0*inFace: dev[6]=net(2,6-7)
+AnchorPointForwarding::Pull : face->m_face 0x88b3968
+pfEntry->GetIncoming() face value in for loop: 0x88b3968
+inFace value in for loop:  inFace: 0x88b3968
+do you come here?
+AnchorPointForwarding::DoPitForwarding at: 0x88b3528 vartika1 (pfEntry == 0)
+AnchorPointForwarding::OnInterest at: 0x88b2840 inFace << interest->GetName (): 0x88b2cb8/anchor1
+DoPitForwarding Pull at: 0x88b2840/anchor1with m_pull: 1
+AnchorPointForwarding::Pull at: 0x88b2840interest->GetName (): /anchor1
+AnchorPointForwarding::Pull at: 0x88b2840interest->GetName (): /anchor1 .. interest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b2840 pfInterest->GetPitForwardingName (): /producer/file
+AnchorPointForwarding::Pull at: 0x88b2840 pfInterest->GetPitForwardingNamePtr (): 0xb030bfd0
+AnchorPointForwarding::Pull at: 0x88b2840 interest->GetPitForwardingNamePtr (): 0xb030bfd0
+AnchorPointForwarding::Pull : pfEntry->GetOutgoingCount (): 0*inFace: dev[5]=net(2,5-6)
+AnchorPointForwarding::Pull : face->m_face 0x88b2cb8
+pfEntry->GetIncoming() face value in for loop: 0x88b2cb8
+inFace value in for loop:  inFace: 0x88b2cb8
+do you come here?
+AnchorPointForwarding::DoPitForwarding at: 0x88b2840 vartika1 (pfEntry == 0)
+AnchorApp::OnInterest: vartika says received interest at anchor: 0x88bc560origName: /anchor1 interest: /anchor1

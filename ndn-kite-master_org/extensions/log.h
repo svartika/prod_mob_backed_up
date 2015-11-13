@@ -31,6 +31,49 @@ public:
 		log_file << text << std::endl;
 	}
 
+	static int read_cnt(const char* fileName)
+	{
+		std::ifstream readFile;
+		readFile.open(fileName);
+		char output[100];
+		int i=0, loop=0;
+		if (readFile.is_open())
+		{
+			while (!readFile.eof())
+			{
+				readFile >> output;
+				std::cout<<"read from file: " << output << " - loop: " << loop++ <<"\n";
+				i = atoi(output);//[0]-'0';
+			}
+		}
+		readFile.close();
+		return i;
+	}
+
+	static int write_tracing_int_count()
+	{
+		int count = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_tracing_interest_counter.txt");
+		std::ostringstream oss1;
+		count+=1;
+		//oss1<< "Tracing Interest (Interest for data): " << count;
+		oss1<< count;
+		std::string tsLog1(oss1.str());
+		std::ofstream log_file("/home/vartika-kite/ndn-kite-master_org/results/res/global_tracing_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file << tsLog1 << std::endl;
+	}
+
+	static int write_traced_int_count()
+	{
+		int count = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_traced_interest_counter.txt");
+		std::ostringstream oss1;
+		count+=1;
+		oss1<< count;
+		std::string tsLog1(oss1.str());
+		std::ofstream log_file("/home/vartika-kite/ndn-kite-master_org/results/res/global_traced_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file << tsLog1 << std::endl;
+	}
+
+
 	/*static void  write_to_tracing_interest_tracker( const std::string &text )
 	{
 		std::ofstream log_file(

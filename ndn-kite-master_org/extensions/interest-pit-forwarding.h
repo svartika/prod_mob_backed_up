@@ -15,6 +15,8 @@
 #include "ns3/ndnSIM/model/pit/ndn-pit-impl.h"
 #include "ns3/ndnSIM/utils/trie/fifo-policy.h"
 
+#include "log.h"
+
 namespace ns3 {
 namespace ndn {
 namespace fw {
@@ -91,6 +93,10 @@ protected:
   Pull (Ptr<Face> inFace,
         Ptr<const Interest> interest,
         Ptr<pit::Entry> pitEntry);
+
+  virtual void
+    OnInterest (Ptr<Face> face,
+                Ptr<Interest> interest);
 
 protected:
   static LogComponent g_log;
