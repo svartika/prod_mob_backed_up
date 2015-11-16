@@ -91,41 +91,41 @@ NS_GLOBAL_VALUE="RngRun=16" \
 NS_GLOBAL_VALUE="RngRun=4" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=8" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=12" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=16" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=8 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 
 
 NS_GLOBAL_VALUE="RngRun=4" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=10--size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=10--size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=8" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=12" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis  >vartika.txt
 
 NS_GLOBAL_VALUE="RngRun=16" \
 ./waf --run "prr \
 --ns3::ndn::fw::PitForwarding::Pull=true \
---kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis
+--kite=1 --speed=10 --size=1 --grid=4 --stop=200" --vis  >vartika.txt

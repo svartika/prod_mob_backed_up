@@ -73,6 +73,16 @@ public:
 		log_file << tsLog1 << std::endl;
 	}
 
+	static int write_int_count()
+	{
+		int count = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_regular_interest_counter.txt");
+		std::ostringstream oss1;
+		count+=1;
+		oss1<< count;
+		std::string tsLog1(oss1.str());
+		std::ofstream log_file("/home/vartika-kite/ndn-kite-master_org/results/res/global_regular_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file << tsLog1 << std::endl;
+	}
 
 	/*static void  write_to_tracing_interest_tracker( const std::string &text )
 	{
