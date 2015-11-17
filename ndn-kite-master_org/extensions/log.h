@@ -84,6 +84,54 @@ public:
 		log_file << tsLog1 << std::endl;
 	}
 
+
+	static int store_to_another_file()
+		{
+			int g_traced, g_tracing, g_reg, sent, processed, received;
+
+			g_traced = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_traced_interest_counter.txt");
+			g_tracing = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_tracing_interest_counter.txt");
+			g_reg = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/global_regular_interest_counter.txt");
+			sent = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/consumer_sent_tracing.txt");
+			processed = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/producer_process_tracing.txt");
+			received = read_cnt("/home/vartika-kite/ndn-kite-master_org/results/res/consumer_receives_data.txt");
+
+			std::ostringstream oss1;
+			oss1<< "\n\n\ng_traced: "<< g_traced << "\ng_tracing: "<< g_tracing <<  "\nsent: "<< sent << "\nprocessed: "<< processed << "\nreceived: "<< received<<"\n\ng_reg: "<< g_reg;
+			std::string tsLog1(oss1.str());
+
+			std::ofstream log_file("/home/vartika-kite/ndn-kite-master_org/results/res/final_results.txt", std::ios_base::out | std::ios_base::app);
+			log_file << tsLog1 << std::endl;
+		}
+
+		static int write_0_to_logs()
+		{
+			std::ostringstream oss1;
+			int i=0;
+			oss1<< i;
+			std::string tsLog1(oss1.str());
+
+			store_to_another_file();
+
+			std::ofstream log_file1("/home/vartika-kite/ndn-kite-master_org/results/res/global_tracing_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file1 << tsLog1 << std::endl;
+
+			std::ofstream log_file2("/home/vartika-kite/ndn-kite-master_org/results/res/global_traced_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file2 << tsLog1 << std::endl;
+
+			std::ofstream log_file6("/home/vartika-kite/ndn-kite-master_org/results/res/global_regular_interest_counter.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file6 << tsLog1 << std::endl;
+
+			std::ofstream log_file3("/home/vartika-kite/ndn-kite-master_org/results/res/consumer_sent_tracing.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file3 << tsLog1 << std::endl;
+
+			std::ofstream log_file4("/home/vartika-kite/ndn-kite-master_org/results/res/producer_process_tracing.txt", std::ios_base::out | std::ios_base::trunc);
+					log_file4 << tsLog1 << std::endl;
+
+			std::ofstream log_file5("/home/vartika-kite/ndn-kite-master_org/results/res/consumer_receives_data.txt", std::ios_base::out | std::ios_base::trunc);
+							log_file5 << tsLog1 << std::endl;
+		}
+
 	/*static void  write_to_tracing_interest_tracker( const std::string &text )
 	{
 		std::ofstream log_file(

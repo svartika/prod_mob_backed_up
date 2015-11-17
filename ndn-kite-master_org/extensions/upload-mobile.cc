@@ -85,7 +85,8 @@ MobileApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	oss.flush();
 
 	std::ostringstream oss2;
-	oss2<< "on interest/ put data: " << received_tracing_interest_ctr++<<" , ";
+	//oss2<< "on interest/ put data: " << received_tracing_interest_ctr++<<" , ";
+	oss2<<received_tracing_interest_ctr++;
 	std::string tsLog2(oss2.str());
 	Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/ndn-kite-master_org/results/res/producer_process_tracing.txt");
 	oss2.flush();

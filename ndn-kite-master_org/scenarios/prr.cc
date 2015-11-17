@@ -12,12 +12,17 @@
 #include "ns3/ndnSIM-module.h"
 #include "ns3/wifi-module.h"
 #include "ns3/mobility-module.h"
+#include<unistd.h>
+#include "log.h"
 
 using namespace ns3;
 
 int 
 main (int argc, char *argv[])
 {
+	Log::write_0_to_logs();
+	sleep(2);
+
   int isKite = 1;
   int gridSize = 4;
   int mobileSize = 1;
