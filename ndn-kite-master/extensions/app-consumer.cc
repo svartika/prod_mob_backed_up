@@ -107,7 +107,8 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 {
 	std::cout<<"ConsumerApp::OnData with *data: "<< *data<<"\n";
 	std::ostringstream oss1;
-	oss1<< "Data packets Received: " << data_ctr++;
+	//oss1<< "Data packets Received: " << data_ctr++;
+	oss1<<  data_ctr++;
 	std::string tsLog1(oss1.str());
 	Log::write_to_on_data_tracker(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt");
 	oss1.flush();
@@ -193,9 +194,10 @@ ConsumerApp::SendInterestToProducer (uint32_t seq)
 	float perPacketSize = interest->GetPayload()->GetSerializedSize();
 	tracing_interest_size += interest->GetPayload()->GetSerializedSize();
 	std::ostringstream oss1;
-	oss1<< "Tracing Interest (Interest for data): " << tracing_interest_ctr++<<" , "
+	/*oss1<< "Tracing Interest (Interest for data): " << tracing_interest_ctr++<<" , "
 			"Tracing Interest size: "<< tracing_interest_size << ", "
-			"perPacketSize: "<< perPacketSize;
+			"perPacketSize: "<< perPacketSize;*/
+	oss1<< tracing_interest_ctr++;
 
 	std::string tsLog1(oss1.str());
 	Log::write_to_tracing_interest_tracker_node_n(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_sent_tracing.txt");

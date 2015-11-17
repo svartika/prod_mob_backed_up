@@ -524,7 +524,8 @@ void AnchorPointForwarding::ProcessTracingInterestForProducer(Ptr<Face> inFace, 
 			std::cout<<"AnchorPointForwarding::TrySendOutTracingInterest: inFace->SendData(data) - details: *inFace: "<< *inFace << "interest->GetName()" << interest->GetName().toUri()<<"\n";
 
 			std::ostringstream oss2;
-			oss2<< "on interest/ put data packet count: " << received_tracing_interest_ctr++<<" , ";
+			//oss2<< "on interest/ put data packet count: " << received_tracing_interest_ctr++<<" , ";
+			oss2<< received_tracing_interest_ctr++;
 			std::string tsLog2(oss2.str());
 			Log::write_to_tracing_interest_tracker_node_n(tsLog2, "/home/vartika-kite/ndn-kite-master/results/res/producer_process_tracing.txt");
 

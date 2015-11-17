@@ -7,17 +7,22 @@
 #include "ns3/ndnSIM-module.h"
 #include "ns3/wifi-module.h"
 #include "ns3/mobility-module.h"
+#include "log.h"
+#include <unistd.h>
 
 using namespace ns3;
 
 int 
 main (int argc, char *argv[])
 {
+	Log::write_0_to_logs();
+	sleep(2);
+
 	int isKite = 1;
 	int gridSize = 4;
 	int mobileSize = 1;
 	int speed = 40;
-	int stopTime = 100;
+	int stopTime = 10;
 	int joinTime = 1;
 
 	CommandLine cmd;
@@ -142,6 +147,8 @@ main (int argc, char *argv[])
 	ndn::AppHelper consumerAppHelper ("ConsumerApp");
 	ApplicationContainer consumerApp= consumerAppHelper.Install (consNode);
 	consumerApp.Start (Seconds (1.5));
+
+
 
 	std::cout<<"vartika says..is ok?";
 	Simulator::Stop (Seconds (stopTime));
