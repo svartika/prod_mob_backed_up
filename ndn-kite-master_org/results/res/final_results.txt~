@@ -1,23 +1,13 @@
 
 
 
-g_traced: 32
-g_tracing: 558
-sent: 32
-processed: 0
-received: 52
+g_traced: 0
+g_tracing: 0
+sent: 989
+processed: 5832
+received: 104
 
-g_reg: 0
-
-
-
-g_traced: 243
-g_tracing: 4367
-sent: 1069
-processed: 528
-received: 354
-
-g_reg: 0
+g_reg: 130619
 
 
 
@@ -253,18 +243,8 @@ g_reg: 0
 
 g_traced: 289
 g_tracing: 4899
-sent: 1069
+sent: 2851
 processed: 563
 received: 366
 
 g_reg: 0
-
-
-
-g_traced: 0
-g_tracing: 0
-sent: 19
-processed: 15
-received: 0
-
-g_reg: 563

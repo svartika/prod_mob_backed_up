@@ -1,0 +1,12 @@
+Script started on Thu 19 Nov 2015 10:40:35 AM KST
+]0;vartika-kite@ubuntu: ~/ndn-kite-mastervartika-kite@ubuntu:~/ndn-kite-master$ exit[2Psucd ../prod_mob_backed_up/[2P./run_kite_prr_cases.shls[K./waf configure --debug --boost-libs=/usr//lib/i386-linux-gnu[A]0;vartika-kite@ubuntu: ~/ndn-kite-mastervartika-kite@ubuntu:~/ndn-kite-master$ export LD_LIBRARY_PATH=/usr/local/lib:$LD_[6PLIBRARY_PATH[A]0;vartika-kite@ubuntu: ~/ndn-kite-mastervartika-kite@ubuntu:~/ndn-kite-master$ ./waf configure --debug --boost-libs=/usr/lib/i386-linux-gnu[A]0;vartika-kite@ubuntu: ~/ndn-kite-mastervartika-kite@ubuntu:~/ndn-kite-master$ ls[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C./run_kite_prr_cases.shcd ../prod_mob_backed_up/su[Kexit[KNS_GLOBAL_VALUE="RngRun=8" \
+> ./waf --run "scheme2 \
+> --ns3::ndn::fw::PitForwarding::Pull=true \
+> --kite=1 --speed=1 --size=1 --grid=4 --stop=200" >vartika.txt
+Waf: Entering directory `/home/vartika-kite/ndn-kite-master/build'
+Waf: Leaving directory `/home/vartika-kite/ndn-kite-master/build'
+'build' finished successfully (0.285s)
+]0;vartika-kite@ubuntu: ~/ndn-kite-mastervartika-kite@ubuntu:~/ndn-kite-master$ exit
+
+Script done on Thu 19 Nov 2015 10:41:19 AM KST

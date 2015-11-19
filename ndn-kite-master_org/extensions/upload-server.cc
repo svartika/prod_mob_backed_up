@@ -85,6 +85,11 @@ ServerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	{
 		return;
 	}
+
+	// 2015.11.20 dabinbug
+	//std::cout<<"m_seq is zero\n"<<std::endl;
+	//---------enddabin --------------
+
 	Ptr<const ndn::Name> name = interest->GetNamePtr ();
 	m_uploadName = Create<ndn::Name> (name->toUri ());
 	//m_uploadName = Create<ndn::Name> ("/server/upload/mobile/file");
@@ -94,7 +99,13 @@ ServerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	int i = 0;
 	for (; i < m_credit; i++)
 	{
-		SendInterest (m_seq);
+		if(m_seq<30) {
+			Log::write_org_interests();
+			SendInterest (m_seq);
+		}
+		//2015.11.20 ----
+		//std::cout << "dabin: Send Interst, seq: m_seq"<<m_seq<< std::endl;
+		//----end dabn
 		m_seq++;
 	}
 }
@@ -123,13 +134,22 @@ ServerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> d
 	oss1.flush();
 
 	NS_LOG_FUNCTION (data->GetNamePtr ());
-	SendInterest (m_seq);
+
+	if(m_seq<30) {
+		Log::write_org_interests();
+		SendInterest (m_seq);
+	}
+	//2015.11.20 ----
+	//std::cout << now << ")dabin: Send Interst, seq: m_seq"<<m_seq<< std::endl;
+	//----end dabn
+
 	m_seq ++;
 }
 
 void
 ServerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
+  Log::write_retransmitted_interests();
   Ptr<const ndn::Name> name = interest->GetNamePtr ();
   SendInterest (name->get (-1).toNumber ());
   return;
@@ -138,6 +158,7 @@ ServerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 void
 ServerApp::SendInterest (int seq)
 {
+	if(seq>30) return;
 
 	NS_LOG_FUNCTION (seq);
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
@@ -154,7 +175,7 @@ ServerApp::SendInterest (int seq)
 	/*vartika to write log here to track time when server (consumer)
 	sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
-	//std::cout << "3.ServerApp::SendInterest " << now.GetMilliSeconds();
+	std::cout << "3.ServerApp::SendInterest with " << interest->GetName() << " seq: " << seq<< "at " << now.GetMilliSeconds();
 	//20150924
 	std::ostringstream oss;
 	oss<< "3 ServerApp::SendInterest: " << now.GetMilliSeconds()<<" , ";

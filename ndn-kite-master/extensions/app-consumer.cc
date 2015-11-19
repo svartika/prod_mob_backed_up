@@ -35,33 +35,35 @@ ConsumerApp::GetTypeId ()
   return tid;
 }
 
-void
-ConsumerApp::StartApplication ()
+void ConsumerApp::StartApplication ()
 {
-  // NS_LOG_FUNCTION (this);
-  m_face = CreateObject<ApiFace> (GetNode ());
-  Ptr<ndn::Name> prefix = Create<ndn::Name> (m_consumerPrefix);
-  m_face->SetInterestFilter (prefix, MakeCallback (&ConsumerApp::OnInterest, this));
-  m_mobilePrefixSize = 1;
-  m_credit = 20;
-  m_seq = 0;
+	// NS_LOG_FUNCTION (this);
+	m_face = CreateObject<ApiFace> (GetNode ());
+	Ptr<ndn::Name> prefix = Create<ndn::Name> (m_consumerPrefix);
+	m_face->SetInterestFilter (prefix, MakeCallback (&ConsumerApp::OnInterest, this));
+	m_mobilePrefixSize = 1;
+	m_credit = 20;
+	m_seq = 0;
 
-  //vartika 20150929
-  tracing_interest_ctr = 0;
-  tracing_interest_size = 0;
-  data_ctr = 0;
+	//vartika 20150929
+	tracing_interest_ctr = 0;
+	tracing_interest_size = 0;
+	data_ctr = 0;
 
-  //vartika request data - begins - 20151019
-  m_mobilePrefix = "/producer/file";
-  m_anchorPrefix = "/anchor1";
+	//vartika request data - begins - 20151019
+	m_mobilePrefix = "/producer/file";
+	m_anchorPrefix = "/anchor1";
 
-  m_seq = 0;
-  m_credit = 20;
-  for (int i=0; i < m_credit; i++)
-  {
-	  SendInterestToProducer (m_seq);
-  }
-  //vartika request data - ends
+	m_seq = 0;
+	m_credit = 20;
+	for (int i=0; i < m_credit; i++)
+	{
+		if(m_seq<30) {
+			Log::write_org_interests();
+			SendInterestToProducer (m_seq);
+		}
+	}
+	//vartika request data - ends
 }
 
 void
@@ -113,51 +115,30 @@ ConsumerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data>
 	Log::write_to_on_data_tracker(tsLog1, "/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt");
 	oss1.flush();
 
-	SendInterestToProducer (m_seq);
-
+	if(m_seq<30) {
+		Log::write_org_interests();
+		SendInterestToProducer (m_seq);
+	}
 	return;
 
-
-
-
-	std::cout<<"ConsumerApp::OnData "<<"\n";
-	NS_LOG_INFO ("vartika1: ConsumerApp::OnData ");
-
-	/*vartika to write log here to track time when server (consumer) gets
-	data from mobie producer 20150923*/
-	Time now = Simulator::Now();
-	//std::cout << "6.ServerApp::OnData  " << now.GetMilliSeconds();
-	//20150924
-	std::ostringstream oss;
-	oss<< "6 ConsumerApp::OnData: " << now.GetMilliSeconds();
-	std::string tsLog(oss.str());
-	Log::write_ts_to_log_file(tsLog);
-	oss.flush();
-
-
-
-
-
-
-	NS_LOG_FUNCTION (data->GetNamePtr ());
-	SendInterestToProducer (m_seq);
-	m_seq ++;
 }
 
-void
-ConsumerApp::OnTimeout (Ptr<const ndn::Interest> interest)
+void ConsumerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 {
 	/*SendInterestToProducer (m_seq++); // no use calling this. cos interest wont timeout here....it will always be consumed
 	return;*/
+	Log::write_retransmitted_interests();
 
-	  Ptr<const ndn::Name> name = interest->GetNamePtr ();
-	  SendInterestToProducer (name->get (-1).toNumber ());
-	  return;
+	Ptr<const ndn::Name> name = interest->GetNamePtr ();
+	SendInterestToProducer (name->get (-1).toNumber ());
+	return;
 }
 
 void
 ConsumerApp::SendInterestToProducer (uint32_t seq)
 {
+	if(seq>30) return;
+
 	NS_LOG_FUNCTION (seq);
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
 	UniformVariable rand (0,std::numeric_limits<uint32_t>::max ());

@@ -10,6 +10,10 @@
 #include "ndn-api-face-anchor-manip.h"
 #include <sstream>
 
+#include "ns3/node.h"
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+
 namespace ll = boost::lambda;
 
 namespace ns3 {
@@ -678,7 +682,13 @@ void AnchorPointForwarding::OnData (Ptr<Face> inFace, Ptr<Data> data)
 {
 	NS_LOG_FUNCTION (inFace << data->GetName ());
 
+	Ptr<Node> node = this->GetObject<Node> ();
+	int nodeId = node->GetId ();
+	std::string nodeName = Names::FindName (node);
+
 	std::cout<<"\nAnchorPointForwarding::OnData - *inFace: " << *inFace << " data->GetName(): " <<data->GetName ()<< " *data: "<< *data<<"\n";
+	std::cout<<"AnchorPointForwarding::OnData - Dabin: nodeId: " << nodeId << " nodeName: " <<nodeName<<"\n";
+
 
 	m_inData (data, inFace);
 

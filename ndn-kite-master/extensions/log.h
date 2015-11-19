@@ -73,18 +73,44 @@ public:
 		log_file << tsLog1 << std::endl;
 	}
 
+	static int write_retransmitted_interests()
+	{
+		int count = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/cons_retransmitted_interests.txt");
+		std::ostringstream oss1;
+		count+=1;
+		oss1<< count;
+		std::string tsLog1(oss1.str());
+		std::ofstream log_file("/home/vartika-kite/ndn-kite-master/results/res/cons_retransmitted_interests.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file << tsLog1 << std::endl;
+	}
+
+	static int write_org_interests()
+	{
+		int count = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/cons_org_interests.txt");
+		std::ostringstream oss1;
+		count+=1;
+		oss1<< count;
+		std::string tsLog1(oss1.str());
+		std::ofstream log_file("/home/vartika-kite/ndn-kite-master/results/res/cons_org_interests.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file << tsLog1 << std::endl;
+
+	}
+
 	static int store_to_another_file()
 	{
-		int g_traced, g_tracing, sent, processed, received;
+		int g_traced, g_tracing, sent, processed, received, retransmitted, org;
 
 		g_traced = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/global_traced_interest_counter.txt");
 		g_tracing = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/global_tracing_interest_counter.txt");
 		sent = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/consumer_sent_tracing.txt");
 		processed = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/producer_process_tracing.txt");
 		received = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt");
+		retransmitted = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/cons_retransmitted_interests.txt");
+		org = read_cnt("/home/vartika-kite/ndn-kite-master/results/res/cons_org_interests.txt");
 
 		std::ostringstream oss1;
-		oss1<< "\n\n\ng_traced: "<< g_traced << "\ng_tracing: "<< g_tracing << "\nsent: "<< sent << "\nprocessed: "<< processed << "\nreceived: "<< received;
+		oss1<< "\n\n\ng_traced: "<< g_traced << "\ng_tracing: "<< g_tracing << "\nsent: "<< sent
+				<< "\nprocessed: "<< processed << "\nreceived: "<< received << "\nretransmitted: " << retransmitted << "\norg: "<<org;
 		std::string tsLog1(oss1.str());
 
 		std::ofstream log_file("/home/vartika-kite/ndn-kite-master/results/res/final_results.txt", std::ios_base::out | std::ios_base::app);
@@ -110,10 +136,16 @@ public:
 		log_file3 << tsLog1 << std::endl;
 
 		std::ofstream log_file4("/home/vartika-kite/ndn-kite-master/results/res/producer_process_tracing.txt", std::ios_base::out | std::ios_base::trunc);
-				log_file4 << tsLog1 << std::endl;
+		log_file4 << tsLog1 << std::endl;
 
 		std::ofstream log_file5("/home/vartika-kite/ndn-kite-master/results/res/consumer_receives_data.txt", std::ios_base::out | std::ios_base::trunc);
-						log_file5 << tsLog1 << std::endl;
+		log_file5 << tsLog1 << std::endl;
+
+		std::ofstream log_file6("/home/vartika-kite/ndn-kite-master/results/res/cons_retransmitted_interests.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file6 << tsLog1 << std::endl;
+
+		std::ofstream log_file7("/home/vartika-kite/ndn-kite-master/results/res/cons_org_interests.txt", std::ios_base::out | std::ios_base::trunc);
+			log_file7 << tsLog1 << std::endl;
 	}
 
 
