@@ -72,13 +72,13 @@ ServerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	/*vartika to write log here to track time when server (consumer)
 	gets interest from mobile producer 20150923*/
 	Time now = Simulator::Now();
-	//std::cout << "2.ServerApp::OnInterest  " << now.GetMilliSeconds();
+	std::cout << "2.ServerApp::OnInterest  " << now.GetMilliSeconds();
 	//20150924
-	std::ostringstream oss;
+	/*std::ostringstream oss;
 	oss<< "2 ServerApp::OnInterest: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog(oss.str());
 	Log::write_ts_to_log_file(tsLog);
-	oss.flush();
+	oss.flush();*/
 
 	NS_LOG_FUNCTION (interest);
 	if (m_seq > 0)
@@ -99,15 +99,21 @@ ServerApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	int i = 0;
 	for (; i < m_credit; i++)
 	{
-		if(m_seq<30) {
+		//if(m_seq<30) {
 			Log::write_org_interests();
 			SendInterest (m_seq);
-		}
+		//}
 		//2015.11.20 ----
 		//std::cout << "dabin: Send Interst, seq: m_seq"<<m_seq<< std::endl;
 		//----end dabn
 		m_seq++;
 	}
+}
+
+void ServerApp::LoopThroughMap()
+{
+	for (std::map<std::string, long>::iterator it=_tsMap.begin(); it!=_tsMap.end(); ++it)
+	    std::cout <<"ServerApp::LoopThroughMap: "<< it->first << " => " << it->second << '\n';
 }
 
 void
@@ -117,13 +123,28 @@ ServerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> d
 	/*vartika to write log here to track time when server (consumer) gets
 	data from mobie producer 20150923*/
 	Time now = Simulator::Now();
-	//std::cout << "6.ServerApp::OnData  " << now.GetMilliSeconds();
+	std::cout << "6.ServerApp::OnData  " << now.GetMilliSeconds() <<" .... ";
 	//20150924
-	std::ostringstream oss;
-	oss<< "6 ServerApp::OnData: " << now.GetMilliSeconds() <<" , ";//std::endl;
-	std::string tsLog(oss.str());
-	Log::write_ts_to_log_file(tsLog);
-	oss.flush();
+
+	LoopThroughMap();
+
+	std::string intName = origInterest->GetName().toUri();
+	std::map<std::string, long>::iterator it = _tsMap.find(intName);
+	if (it != _tsMap.end())
+	{
+		long sent_ts = it->second;
+		long latency = ((long)now.GetMilliSeconds()) - sent_ts;
+		std::cout << "writing to received_data_ts: origInterest: " << origInterest->GetName() <<"latency: "<<latency << "\n";
+
+		std::ostringstream oss;
+		oss<< latency<<"\n";
+		std::string tsLog(oss.str());
+
+		Log::write_received_data_ts(tsLog);
+		oss.flush();
+
+	}
+
 
 	//20151001
 	std::ostringstream oss1;
@@ -135,10 +156,10 @@ ServerApp::OnData (Ptr<const ndn::Interest> origInterest, Ptr<const ndn::Data> d
 
 	NS_LOG_FUNCTION (data->GetNamePtr ());
 
-	if(m_seq<30) {
+	//if(m_seq<30) {
 		Log::write_org_interests();
 		SendInterest (m_seq);
-	}
+	//}
 	//2015.11.20 ----
 	//std::cout << now << ")dabin: Send Interst, seq: m_seq"<<m_seq<< std::endl;
 	//----end dabn
@@ -158,7 +179,7 @@ ServerApp::OnTimeout (Ptr<const ndn::Interest> interest)
 void
 ServerApp::SendInterest (int seq)
 {
-	if(seq>30) return;
+	//if(seq>30) return;
 
 	NS_LOG_FUNCTION (seq);
 	Ptr<ndn::Interest> interest = Create<ndn::Interest> ();
@@ -175,13 +196,12 @@ ServerApp::SendInterest (int seq)
 	/*vartika to write log here to track time when server (consumer)
 	sends interest to mobile producer to fetch data 20150923*/
 	Time now = Simulator::Now();
-	std::cout << "3.ServerApp::SendInterest with " << interest->GetName() << " seq: " << seq<< "at " << now.GetMilliSeconds();
+	std::cout << "3.ServerApp::SendInterest with " << interest->GetName() << " seq: " << seq<< "at " << now.GetMilliSeconds()<<"\n";
 	//20150924
-	std::ostringstream oss;
-	oss<< "3 ServerApp::SendInterest: " << now.GetMilliSeconds()<<" , ";
-	std::string tsLog(oss.str());
-	Log::write_ts_to_log_file(tsLog);
-	oss.flush();
+
+	//Log::write_sent_tracing_ts(interest->GetName()->toUri(), now.GetMilliSeconds());
+	std::string intName = interest->GetName().toUri();
+	_tsMap[intName]=now.GetMilliSeconds();
 
 	float perPacketSize = interest->GetPayload()->GetSerializedSize();
 	tracing_interest_size += interest->GetPayload()->GetSerializedSize();

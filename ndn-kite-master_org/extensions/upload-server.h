@@ -14,6 +14,7 @@
 #include "ns3/ndnSIM/ndn.cxx/ndn-api-face.h"
 
 #include "log.h" //vartika 20150924
+#include <map>
 
 namespace ns3 {
 namespace ndn {
@@ -45,6 +46,8 @@ public:
   void
   SendInterest (int seq);
 
+  void LoopThroughMap();
+
 private:
   uint32_t m_seq;
   uint32_t m_credit;
@@ -59,6 +62,7 @@ private:
   int tracing_interest_ctr;
   double tracing_interest_size;
   int data_ctr; // 20151001
+  std::map<std::string, long> _tsMap;
 
 };
 

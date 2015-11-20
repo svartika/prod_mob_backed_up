@@ -1,15 +1,44 @@
 #include <fstream>
+//#include <map>
+
 
 class Log {
+
 public:
-	static void  write_ts_to_log_file( const std::string &text )
+	//static std::map<const char *, long> _tsMap;
+	static void  write_sent_tracing_ts( std::string interestName, long sent_ts )
 	{
-	    std::ofstream log_file(
-	        "/home/vartika-kite/kite_ts_log_file.txt",
-	        std::ios_base::out | std::ios_base::app );
-	    log_file << text << std::endl;
+		//Log::_tsMap[interestName.c_str()]=sent_ts;
 	}
 
+	static void  write_received_data_ts( const std::string &text)//std::string interestName, long recv_ts  )
+	{
+		/*std::iterator<>  it = Log::_tsMap.find(interestName.c_str());
+		if (it != Log::_tsMap.end())
+		{
+			int64_t sent_ts = it->second;
+			int64_t latency = recv_ts - sent_ts;
+			std::cout << "writing to received_data_ts: interestName: " << interestName <<"latency: "<<latency << "\n";
+
+			std::ostringstream oss1;
+			oss1<< latency<<"\n";
+			std::string tsLog1(oss1.str());
+
+			std::ofstream log_file(
+				"/home/vartika-kite/ndn-kite-master_org/results/res/received_data_ts.txt",
+				std::ios_base::out | std::ios_base::app );
+			log_file << tsLog1 << std::endl;
+		}*/
+		std::ofstream log_file(
+				"/home/vartika-kite/ndn-kite-master_org/results/res/received_data_ts.txt",
+				std::ios_base::out | std::ios_base::app );
+		log_file << text << std::endl;
+	}
+
+	static void  write_ts_to_log_file( const std::string &text )
+	{
+
+	}
 	static void  write_to_tracing_interest_tracker_node_n( const std::string &text , const char* fileName)
 	{
 		std::ofstream log_file(
@@ -42,7 +71,7 @@ public:
 			while (!readFile.eof())
 			{
 				readFile >> output;
-				std::cout<<"read from file: " << output << " - loop: " << loop++ <<"\n";
+				//std::cout<<"read from file: " << output << " - loop: " << loop++ <<"\n";
 				i = atoi(output);//[0]-'0';
 			}
 		}
@@ -125,8 +154,24 @@ public:
 				<< "\nprocessed: "<< processed << "\nreceived: "<< received<<"\ng_reg: "<< g_reg << "\nretransmitted: " << retransmitted << "\norg: "<<org;
 		std::string tsLog1(oss1.str());
 
+
+
 		std::ofstream log_file("/home/vartika-kite/ndn-kite-master_org/results/res/final_results.txt", std::ios_base::out | std::ios_base::app);
 		log_file << tsLog1 << std::endl;
+
+
+
+		/*std::ifstream infile;
+		infile.open("/home/vartika-kite/ndn-kite-master_org/results/res/received_data_ts.txt");
+		std::ofstream log_file2("/home/vartika-kite/ndn-kite-master_org/results/res/final_received_data_ts.txt", std::ios_base::out | std::ios_base::app);
+		while(!infile.eof())
+		{
+			char c = infile.get();
+			log_file2 << c;
+		}
+		log_file2 << "\n\n\n";*/
+
+
 	}
 
 	static int write_0_to_logs()
@@ -162,6 +207,8 @@ public:
 		std::ofstream log_file8("/home/vartika-kite/ndn-kite-master_org/results/res/cons_org_interests.txt", std::ios_base::out | std::ios_base::trunc);
 		log_file8 << tsLog1 << std::endl;
 
+		std::ofstream log_file9("/home/vartika-kite/ndn-kite-master_org/results/res/received_data_ts.txt", std::ios_base::out | std::ios_base::trunc);
+		log_file8 << tsLog1 << std::endl;
 	}
 
 	/*static void  write_to_tracing_interest_tracker( const std::string &text )

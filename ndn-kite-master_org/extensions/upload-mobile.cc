@@ -81,7 +81,7 @@ MobileApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	std::ostringstream oss;
 	oss<< "4 MobileApp::OnInterest::on_receive_interest: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog(oss.str());
-	Log::write_ts_to_log_file(tsLog);
+	//Log::write_ts_to_log_file(tsLog);
 	oss.flush();
 
 	std::ostringstream oss2;
@@ -104,7 +104,7 @@ MobileApp::OnInterest (Ptr<const ndn::Name> origName, Ptr<const ndn::Interest> i
 	std::ostringstream oss1;
 	oss1<< "5 MobileApp::OnInterest:before_put_data: " << now.GetMilliSeconds()<<" , ";
 	std::string tsLog1(oss1.str());
-	Log::write_ts_to_log_file(tsLog1);
+	//Log::write_ts_to_log_file(tsLog1);
 	oss1.flush();
 
 
@@ -144,7 +144,7 @@ MobileApp::SendInterest ()
   std::ostringstream oss;
   oss<< "1 MobileApp::SendInterest: " << now.GetMilliSeconds()<<" , ";
   std::string tsLog(oss.str());
-  Log::write_ts_to_log_file(tsLog);
+  //Log::write_ts_to_log_file(tsLog);
   oss.flush();
 
   float perPacketSize = interest->GetPayload()->GetSerializedSize();
